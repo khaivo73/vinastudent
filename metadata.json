@@ -1,0 +1,6 @@
+{
+  "name": "VinaStudent - Gói Cước Mùa Tựu Trường VinaPhone 2026",
+  "description": "Website đặt gói cước VinaPhone Mùa Tựu Trường dành riêng cho Học sinh, Sinh viên và Đoàn thanh niên. Trọn bộ 16 gói cước (FCLUB, YOLO100, SODA125, D159V), giảm đến 50%, tặng 100% quà tặng (mũ bảo hiểm, áo mưa, bình nước, quạt), giao nhanh 15 phút tận KTX.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
