@@ -95,7 +95,7 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
               cartItems.map((item, idx) => (
                 <div
                   key={idx}
-                  className="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-3 relative group"
+                  className="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-3 relative group"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="border-l-4 border-orange-500 pl-2">
@@ -103,7 +103,7 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
                         <span className="font-mono font-black text-base text-blue-600">
                           {item.packageItem.code}
                         </span>
-                        <span className="px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 text-[10px] font-bold rounded">
+                        <span className="px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 text-[10px] font-bold rounded-md">
                           -{item.packageItem.discountPercent}%
                         </span>
                       </div>
@@ -122,7 +122,7 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
                   </div>
 
                   {/* Gift selection box */}
-                  <div className="bg-white p-2.5 rounded-xl border border-slate-200 text-xs">
+                  <div className="bg-white p-2.5 rounded-lg border border-slate-200 text-xs">
                     <div className="flex items-center gap-1 text-slate-900 font-bold text-[11px] mb-1">
                       <Gift className="w-3.5 h-3.5 text-orange-500 shrink-0" />
                       <span>Quà Tặng Kèm (Tháng 8):</span>

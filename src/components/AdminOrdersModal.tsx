@@ -102,18 +102,18 @@ export const AdminOrdersModal: React.FC<AdminOrdersModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto" id="admin-orders-modal">
-      <div className="bg-white rounded-3xl max-w-5xl w-full max-h-[92vh] overflow-y-auto shadow-2xl relative animate-in fade-in zoom-in duration-200 flex flex-col">
+      <div className="bg-white rounded-xl max-w-5xl w-full max-h-[92vh] overflow-y-auto shadow-2xl relative animate-in fade-in zoom-in duration-200 flex flex-col">
         
         {/* Header */}
-        <div className="bg-gradient-to-r from-[#0072BC] to-[#005a96] text-white p-5 sm:p-6 rounded-t-3xl flex items-center justify-between sticky top-0 z-10">
+        <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-5 sm:p-6 rounded-t-xl flex items-center justify-between sticky top-0 z-10">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-white/15 flex items-center justify-center text-yellow-300">
+            <div className="w-10 h-10 rounded-lg bg-white/15 flex items-center justify-center text-yellow-300">
               <FileSpreadsheet className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="text-lg sm:text-xl font-black text-white">Quản Lý Đơn Hàng & Xuất Excel / Google Sheet</h3>
-                <span className="bg-yellow-400 text-slate-950 text-xs font-black px-2 py-0.5 rounded-full">
+                <span className="bg-yellow-400 text-slate-950 text-xs font-black px-2 py-0.5 rounded-md">
                   {orders.length} đơn
                 </span>
               </div>
@@ -126,8 +126,8 @@ export const AdminOrdersModal: React.FC<AdminOrdersModalProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowConfig(!showConfig)}
-              className={`p-2 rounded-xl border text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
-                showConfig ? 'bg-white text-[#0072BC] border-white' : 'bg-white/10 hover:bg-white/20 text-white border-white/20'
+              className={`p-2 rounded-lg border text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+                showConfig ? 'bg-white text-blue-600 border-white' : 'bg-white/10 hover:bg-white/20 text-white border-white/20'
               }`}
               title="Cấu hình Google Sheets Webhook"
             >
@@ -137,7 +137,7 @@ export const AdminOrdersModal: React.FC<AdminOrdersModalProps> = ({
 
             <button
               onClick={onClose}
-              className="p-2 rounded-full bg-white/15 hover:bg-white/25 text-white transition cursor-pointer"
+              className="p-2 rounded-md bg-white/15 hover:bg-white/25 text-white transition cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -150,7 +150,7 @@ export const AdminOrdersModal: React.FC<AdminOrdersModalProps> = ({
             <button
               onClick={handleExport}
               disabled={orders.length === 0}
-              className={`px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition cursor-pointer shadow-md ${
+              className={`px-4 py-2.5 rounded-lg font-bold text-xs sm:text-sm flex items-center gap-2 transition cursor-pointer shadow-xs ${
                 orders.length > 0
                   ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20'
                   : 'bg-slate-200 text-slate-400 cursor-not-allowed'
@@ -161,7 +161,7 @@ export const AdminOrdersModal: React.FC<AdminOrdersModalProps> = ({
             </button>
 
             {googleSheetsWebhookUrl && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold">
                 <CheckCircle className="w-3.5 h-3.5" />
                 <span>Google Sheets: Đã kết nối tự động</span>
               </span>
@@ -175,7 +175,7 @@ export const AdminOrdersModal: React.FC<AdminOrdersModalProps> = ({
                   onClearAllOrders();
                 }
               }}
-              className="px-3 py-2 text-xs font-bold text-red-600 hover:bg-red-50 rounded-xl transition flex items-center gap-1.5 cursor-pointer"
+              className="px-3 py-2 text-xs font-bold text-red-600 hover:bg-red-50 rounded-lg transition flex items-center gap-1.5 cursor-pointer"
             >
               <Trash2 className="w-3.5 h-3.5" />
               <span>Xóa tất cả đơn</span>
@@ -198,7 +198,7 @@ export const AdminOrdersModal: React.FC<AdminOrdersModalProps> = ({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-              <div className="space-y-2 bg-white p-4 rounded-2xl border border-blue-200">
+              <div className="space-y-2 bg-white p-4 rounded-xl border border-blue-200">
                 <span className="font-bold text-slate-800">Các bước thực hiện trên Google Sheet:</span>
                 <ol className="list-decimal list-inside space-y-1 text-slate-600 leading-relaxed">
                   <li>Mở 1 file Google Sheet mới của bạn.</li>
@@ -210,19 +210,19 @@ export const AdminOrdersModal: React.FC<AdminOrdersModalProps> = ({
                 </ol>
               </div>
 
-              <div className="space-y-2 bg-white p-4 rounded-2xl border border-blue-200 flex flex-col justify-between">
+              <div className="space-y-2 bg-white p-4 rounded-xl border border-blue-200 flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <span className="font-bold text-slate-800">Mã Google Apps Script:</span>
                     <button
                       onClick={copyScriptCode}
-                      className="px-2.5 py-1 bg-blue-100 hover:bg-blue-200 text-[#0072BC] rounded-lg font-bold text-[11px] flex items-center gap-1 transition cursor-pointer"
+                      className="px-2.5 py-1 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg font-bold text-[11px] flex items-center gap-1 transition cursor-pointer"
                     >
                       {copiedCode ? <CheckCircle className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
                       <span>{copiedCode ? 'Đã sao chép!' : 'Copy Code'}</span>
                     </button>
                   </div>
-                  <pre className="bg-slate-900 text-slate-200 p-2.5 rounded-xl text-[10px] font-mono max-h-32 overflow-y-auto leading-snug">
+                  <pre className="bg-slate-900 text-slate-200 p-2.5 rounded-lg text-[10px] font-mono max-h-32 overflow-y-auto leading-snug">
                     {googleScriptTemplate}
                   </pre>
                 </div>
@@ -233,11 +233,11 @@ export const AdminOrdersModal: React.FC<AdminOrdersModalProps> = ({
                     value={webhookInput}
                     onChange={(e) => setWebhookInput(e.target.value)}
                     placeholder="https://script.google.com/macros/s/.../exec"
-                    className="flex-1 px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:bg-white focus:border-[#0072BC] focus:outline-none"
+                    className="flex-1 px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs focus:bg-white focus:border-blue-600 focus:outline-none"
                   />
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-[#0072BC] hover:bg-[#005a96] text-white rounded-xl font-bold text-xs cursor-pointer transition"
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold text-xs cursor-pointer transition"
                   >
                     Lưu URL
                   </button>
@@ -261,7 +261,7 @@ export const AdminOrdersModal: React.FC<AdminOrdersModalProps> = ({
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs border-collapse min-w-[750px] bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xs">
+              <table className="w-full text-left text-xs border-collapse min-w-[750px] bg-white rounded-xl overflow-hidden border border-slate-200 shadow-xs">
                 <thead>
                   <tr className="bg-slate-100 text-slate-700 font-bold uppercase text-[10px] tracking-wider border-b border-slate-200">
                     <th className="py-3 px-3">Mã Đơn</th>
@@ -279,7 +279,7 @@ export const AdminOrdersModal: React.FC<AdminOrdersModalProps> = ({
                     const item = order.items[0];
                     return (
                       <tr key={order.id} className="hover:bg-blue-50/50 transition">
-                        <td className="py-3 px-3 font-mono font-bold text-[#0072BC]">
+                        <td className="py-3 px-3 font-mono font-bold text-blue-600">
                           {order.id}
                         </td>
                         <td className="py-3 px-3 text-slate-500 text-[11px] whitespace-nowrap">
@@ -298,7 +298,7 @@ export const AdminOrdersModal: React.FC<AdminOrdersModalProps> = ({
                           </div>
                         </td>
                         <td className="py-3 px-3">
-                          <span className="font-mono font-bold text-slate-900 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
+                          <span className="font-mono font-bold text-slate-900 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100">
                             {item?.packageItem.code}
                           </span>
                           <div className="text-[10px] text-slate-500 mt-0.5">
@@ -306,12 +306,12 @@ export const AdminOrdersModal: React.FC<AdminOrdersModalProps> = ({
                           </div>
                         </td>
                         <td className="py-3 px-3">
-                          <div className="flex items-center gap-1 text-[#D90429] font-semibold text-[11px]">
+                          <div className="flex items-center gap-1 text-orange-600 font-semibold text-[11px]">
                             <Gift className="w-3.5 h-3.5 shrink-0" />
                             <span className="truncate max-w-[130px]">{item?.selectedGift}</span>
                           </div>
                         </td>
-                        <td className="py-3 px-3 font-black text-[#D90429]">
+                        <td className="py-3 px-3 font-black text-slate-900">
                           {formatNumberVND(order.totalAmount)}
                         </td>
                         <td className="py-3 px-2 text-center">
@@ -333,14 +333,14 @@ export const AdminOrdersModal: React.FC<AdminOrdersModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="p-4 sm:p-5 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500 rounded-b-3xl">
+        <div className="p-4 sm:p-5 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500 rounded-b-xl">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-emerald-600" />
             <span>Dữ liệu lưu trữ bền vững trên LocalStorage & đồng bộ trực tiếp ra file Excel CSV Tiếng Việt chuẩn UTF-8</span>
           </div>
           <button
             onClick={onClose}
-            className="px-5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-xl font-bold transition cursor-pointer"
+            className="px-5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg font-bold transition cursor-pointer"
           >
             Đóng
           </button>

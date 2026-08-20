@@ -45,7 +45,7 @@ export const StudentHeader: React.FC<StudentHeaderProps> = ({
         <span className="truncate">
           <strong>CHIẾN DỊCH TỰU TRƯỜNG CẦN THƠ:</strong> GIẢM ĐẾN 50% • <strong className="text-blue-700">QUÀ TẶNG CÓ HẠN DUY NHẤT THÁNG 8!</strong>
         </span>
-        <span className="hidden md:inline-block bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold ml-1">
+        <span className="hidden md:inline-block bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded-md font-bold ml-1">
           CHỈ PHỤC VỤ TP. CẦN THƠ • GIAO KTX 15P
         </span>
       </div>
@@ -56,7 +56,7 @@ export const StudentHeader: React.FC<StudentHeaderProps> = ({
           
           {/* Brand Logo: VinaPhone Back To School */}
           <a href="#" className="flex items-center gap-2.5 shrink-0 group">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-md group-hover:bg-blue-700 transition">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-sm group-hover:bg-blue-700 transition">
               <GraduationCap className="w-6 h-6 text-white" />
             </div>
             <div className="flex flex-col">
@@ -82,14 +82,14 @@ export const StudentHeader: React.FC<StudentHeaderProps> = ({
                 value={filter.searchQuery}
                 onChange={(e) => onFilterChange({ searchQuery: e.target.value })}
                 placeholder="Tìm nhanh: FCLUB, YOLO100, SODA125, D159V, quà tặng tháng 8..."
-                className="w-full pl-10 pr-24 py-2.5 bg-slate-50 hover:bg-slate-100 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-full text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition"
+                className="w-full pl-10 pr-24 py-2.5 bg-slate-50 hover:bg-slate-100 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-lg text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition"
               />
               <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               
               {filter.searchQuery && (
                 <button
                   onClick={() => onFilterChange({ searchQuery: '' })}
-                  className="absolute right-20 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600 bg-slate-200 px-1.5 py-0.5 rounded-full"
+                  className="absolute right-20 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600 bg-slate-200 px-1.5 py-0.5 rounded-md"
                 >
                   Xóa
                 </button>
@@ -97,7 +97,7 @@ export const StudentHeader: React.FC<StudentHeaderProps> = ({
 
               <button
                 onClick={onOpenQuickTable}
-                className="absolute right-1.5 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded-full transition cursor-pointer"
+                className="absolute right-1.5 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded-md transition cursor-pointer"
               >
                 Bảng Giá
               </button>
@@ -110,7 +110,7 @@ export const StudentHeader: React.FC<StudentHeaderProps> = ({
             {/* Quick Table View button for mobile/desktop */}
             <button
               onClick={onOpenQuickTable}
-              className="flex items-center gap-1.5 px-3 py-2 bg-slate-50 hover:bg-blue-50 text-blue-700 rounded-xl text-xs font-bold border border-slate-200 hover:border-blue-200 transition cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-2 bg-slate-50 hover:bg-blue-50 text-blue-700 rounded-lg text-xs font-bold border border-slate-200 hover:border-blue-200 transition cursor-pointer"
               title="Xem bảng giá chính thức"
             >
               <Zap className="w-4 h-4 text-blue-600" />
@@ -120,7 +120,7 @@ export const StudentHeader: React.FC<StudentHeaderProps> = ({
             {/* Staff / Admin Portal Access Button */}
             <button
               onClick={onOpenAdminPortal}
-              className="flex items-center gap-1.5 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-blue-600 rounded-xl text-xs font-bold border border-slate-200 transition cursor-pointer relative"
+              className="flex items-center gap-1.5 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-blue-600 rounded-lg text-xs font-bold border border-slate-200 transition cursor-pointer relative"
               title="Cổng Quản Trị Viên & Cán Bộ Đoàn"
               id="admin-portal-button"
             >
@@ -140,7 +140,7 @@ export const StudentHeader: React.FC<StudentHeaderProps> = ({
               href="https://zalo.me/0818006881"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden lg:flex items-center gap-2 px-3.5 py-2 bg-slate-50 hover:bg-blue-50 text-slate-700 rounded-xl transition text-xs font-bold border border-slate-200 hover:border-blue-200"
+              className="hidden lg:flex items-center gap-2 px-3.5 py-2 bg-slate-50 hover:bg-blue-50 text-slate-700 rounded-lg transition text-xs font-bold border border-slate-200 hover:border-blue-200"
               title="Liên hệ Tổng đài / Zalo: 08.1800 6881 (TP. Cần Thơ)"
             >
               <PhoneCall className="w-4 h-4 text-blue-600" />
@@ -153,7 +153,7 @@ export const StudentHeader: React.FC<StudentHeaderProps> = ({
             {/* Shopping Cart Button */}
             <button
               onClick={onOpenCart}
-              className="flex items-center gap-2.5 px-3.5 sm:px-4 py-2 sm:py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold shadow-md transition group cursor-pointer"
+              className="flex items-center gap-2.5 px-3.5 sm:px-4 py-2 sm:py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold shadow-xs transition group cursor-pointer"
               id="student-cart-button"
             >
               <div className="relative">
@@ -185,13 +185,13 @@ export const StudentHeader: React.FC<StudentHeaderProps> = ({
               value={filter.searchQuery}
               onChange={(e) => onFilterChange({ searchQuery: e.target.value })}
               placeholder="Tìm gói: FCLUB, YOLO100, SODA125, D159V, quà..."
-              className="w-full pl-9 pr-8 py-2 bg-slate-100 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:border-blue-600 focus:outline-none"
+              className="w-full pl-9 pr-8 py-2 bg-slate-100 border border-slate-200 rounded-lg text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:border-blue-600 focus:outline-none"
             />
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             {filter.searchQuery && (
               <button
                 onClick={() => onFilterChange({ searchQuery: '' })}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-500 bg-slate-200 px-2 py-0.5 rounded-full"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-500 bg-slate-200 px-2 py-0.5 rounded-md"
               >
                 Xóa
               </button>

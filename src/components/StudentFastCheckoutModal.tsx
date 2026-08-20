@@ -9,9 +9,7 @@ import {
   CreditCard, 
   CheckCircle2, 
   AlertCircle,
-  Clock,
   School,
-  Sparkles,
   PhoneCall,
   ShieldCheck
 } from 'lucide-react';
@@ -57,18 +55,66 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [createdOrder, setCreatedOrder] = useState<StudentOrder | null>(null);
 
+  // Validation errors
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [formErrorList, setFormErrorList] = useState<string[]>([]);
+
+  const handleFieldChange = (field: string, value: string, setter: (val: string) => void) => {
+    setter(value);
+    if (fieldErrors[field]) {
+      setFieldErrors(prev => {
+        const updated = { ...prev };
+        delete updated[field];
+        return updated;
+      });
+    }
+    if (formErrorList.length > 0) {
+      setFormErrorList([]);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!customerName.trim() || !phone.trim() || !address.trim()) {
-      alert('Vui lòng điền đầy đủ họ tên, số điện thoại và địa chỉ nhận hàng tại Cần Thơ.');
+    const errors: Record<string, string> = {};
+    const errorList: string[] = [];
+
+    if (!customerName.trim()) {
+      errors.customerName = 'Vui lòng nhập họ và tên của bạn';
+      errorList.push('Họ và tên bạn');
+    }
+
+    if (!phone.trim()) {
+      errors.phone = 'Vui lòng nhập số điện thoại nhận hàng/Zalo';
+      errorList.push('Số điện thoại nhận hàng/Zalo');
+    } else if (!/^[0-9]{9,11}$/.test(phone.trim().replace(/\s+/g, ''))) {
+      errors.phone = 'Số điện thoại không đúng định dạng (9-11 chữ số)';
+      errorList.push('Số điện thoại nhận hàng (chưa đúng định dạng)');
+    }
+
+    if (simOption === 'existing_sim') {
+      if (!existingPhone.trim()) {
+        errors.existingPhone = 'Vui lòng nhập số thuê bao VinaPhone đang dùng';
+        errorList.push('Số thuê bao VinaPhone đang dùng');
+      } else if (!/^[0-9]{9,11}$/.test(existingPhone.trim().replace(/\s+/g, ''))) {
+        errors.existingPhone = 'Số thuê bao VinaPhone không đúng định dạng';
+        errorList.push('Số thuê bao VinaPhone (chưa đúng định dạng)');
+      }
+    }
+
+    if (!address.trim()) {
+      errors.address = 'Vui lòng nhập địa chỉ chi tiết / phòng KTX';
+      errorList.push('Địa chỉ chi tiết / Phòng KTX / Nhà trọ');
+    }
+
+    if (errorList.length > 0) {
+      setFieldErrors(errors);
+      setFormErrorList(errorList);
       return;
     }
 
-    if (simOption === 'existing_sim' && !existingPhone.trim()) {
-      alert('Vui lòng nhập số thuê bao VinaPhone đang sử dụng để gán gói cước.');
-      return;
-    }
+    setFieldErrors({});
+    setFormErrorList([]);
 
     const orderId = `VINA-CT-${Date.now().toString().slice(-6)}`;
     const newOrder: StudentOrder = {
@@ -109,18 +155,20 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
   const handleReset = () => {
     setIsSubmitted(false);
     setCreatedOrder(null);
+    setFieldErrors({});
+    setFormErrorList([]);
     onClose();
   };
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/60 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" id="student-checkout-modal">
-      <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[92vh] overflow-y-auto shadow-2xl relative">
+      <div className="bg-white rounded-xl max-w-2xl w-full max-h-[92vh] overflow-y-auto shadow-2xl relative">
         
         {/* Header */}
-        <div className="bg-white border-b border-slate-200 text-slate-900 p-5 sm:p-6 rounded-t-3xl flex items-center justify-between sticky top-0 z-10">
+        <div className="bg-white border-b border-slate-200 text-slate-900 p-5 sm:p-6 rounded-t-xl flex items-center justify-between sticky top-0 z-10">
           <div>
-            <div className="flex items-center gap-1.5 text-xs font-bold text-blue-600 uppercase tracking-wider">
-              <School className="w-4 h-4" />
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-blue-900 uppercase tracking-wider">
+              <School className="w-4 h-4 text-blue-600" />
               <span>ĐẶT NHANH GÓI CƯỚC TỰU TRƯỜNG 2026</span>
             </div>
             <div className="border-l-4 border-orange-500 pl-2 mt-1">
@@ -131,7 +179,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition cursor-pointer"
+            className="p-2 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -142,7 +190,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
           {isSubmitted && createdOrder ? (
             /* SUCCESS CONFIRMATION SCREEN */
             <div className="text-center space-y-5 py-4">
-              <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto shadow-sm">
+              <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto shadow-xs">
                 <CheckCircle2 className="w-10 h-10" />
               </div>
 
@@ -153,27 +201,27 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                 <h3 className="text-2xl font-black text-slate-900 mt-1">
                   Mã Đơn Hàng: <span className="text-blue-600 font-mono">{createdOrder.id}</span>
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto mt-1">
+                <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto mt-1 font-normal">
                   Cảm ơn bạn <strong>{createdOrder.customerName}</strong>! Đơn hàng gói cước <strong>{packageItem.code}</strong> đã được tiếp nhận.
                 </p>
               </div>
 
               {/* Order summary card */}
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-left text-xs space-y-2 max-w-lg mx-auto">
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-left text-xs space-y-2 max-w-lg mx-auto font-normal">
                 <div className="flex justify-between">
                   <span className="text-slate-500">Gói cước:</span>
-                  <span className="font-bold text-slate-800">{packageItem.code} ({packageItem.cycle})</span>
+                  <span className="font-semibold text-slate-800">{packageItem.code} ({packageItem.cycle})</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-500">Quà tặng kèm:</span>
-                  <span className="font-bold text-blue-700 flex items-center gap-1">
+                  <span className="font-semibold text-blue-700 flex items-center gap-1">
                     <Gift className="w-3.5 h-3.5" />
                     {chosenGift}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-500">Hình thức nhận:</span>
-                  <span className="font-bold text-slate-800">
+                  <span className="font-semibold text-slate-800">
                     {simOption === 'new_sim_physical' && 'SIM Mới Vật Lý (Giao 15p)'}
                     {simOption === 'new_sim_esim' && 'Mã QR eSIM (Gửi Zalo/SMS 3p)'}
                     {simOption === 'existing_sim' && `Gán vào số ${existingPhone}`}
@@ -181,24 +229,24 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-500">Địa chỉ / KTX:</span>
-                  <span className="font-bold text-slate-800">{createdOrder.address}</span>
+                  <span className="font-semibold text-slate-800">{createdOrder.address}</span>
                 </div>
                 <div className="flex justify-between pt-2 border-t border-slate-200">
-                  <span className="font-bold text-slate-800">Tổng thanh toán:</span>
+                  <span className="font-semibold text-slate-800">Tổng thanh toán:</span>
                   <span className="font-bold text-sm text-blue-600">{formatNumberVND(createdOrder.totalAmount)}</span>
                 </div>
               </div>
 
               {/* QR payment block if VietQR */}
               {paymentMethod === 'vietqr' && (
-                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center max-w-sm mx-auto space-y-3">
-                  <div className="text-xs font-bold text-blue-700 flex items-center justify-center gap-1.5">
-                    <QrCode className="w-4 h-4" />
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center max-w-sm mx-auto space-y-3 font-normal">
+                  <div className="text-xs font-semibold text-blue-900 flex items-center justify-center gap-1.5">
+                    <QrCode className="w-4 h-4 text-blue-600" />
                     <span>Quét mã VietQR Chuyển Khoản Tức Thì:</span>
                   </div>
                   
                   {/* Dynamic VietQR Image */}
-                  <div className="bg-white p-3 rounded-xl border border-slate-200 inline-block shadow-xs">
+                  <div className="bg-white p-3 rounded-lg border border-slate-200 inline-block shadow-xs">
                     <img
                       src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=2vnpay-vinasim-order-${createdOrder.id}-${packageItem.price}`}
                       alt="VietQR Payment"
@@ -207,7 +255,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                   </div>
 
                   <p className="text-[11px] text-slate-600">
-                    Nội dung CK: <strong className="font-mono text-blue-700">{createdOrder.id} {phone}</strong>
+                    Nội dung CK: <span className="font-mono font-semibold text-blue-700">{createdOrder.id} {phone}</span>
                   </p>
                 </div>
               )}
@@ -215,7 +263,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
               <div className="pt-2">
                 <button
                   onClick={handleReset}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-full font-bold text-xs sm:text-sm hover:bg-blue-700 transition cursor-pointer shadow-sm"
+                  className="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-medium text-xs sm:text-sm hover:bg-blue-700 transition cursor-pointer shadow-xs"
                 >
                   Xong & Tiếp Tục Mua Sắm
                 </button>
@@ -223,18 +271,18 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
             </div>
           ) : (
             /* ORDER FORM */
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-5" noValidate>
               
               {/* Package Summary Box */}
-              <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="font-mono font-black text-lg text-blue-600">{packageItem.code}</span>
-                    <span className="px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 font-bold text-xs rounded-full">
+                    <span className="px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 font-semibold text-xs rounded-md">
                       -{packageItem.discountPercent}%
                     </span>
                   </div>
-                  <div className="text-xs text-slate-600 mt-0.5">
+                  <div className="text-xs text-slate-600 mt-0.5 font-normal">
                     {packageItem.dataAllowance} • {packageItem.voiceAllowance}
                   </div>
                 </div>
@@ -243,34 +291,49 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                   <div className="text-xl font-black text-slate-900">
                     {formatNumberVND(packageItem.price)}
                   </div>
-                  <div className="text-xs text-slate-400 line-through">
+                  <div className="text-xs text-slate-400 line-through font-normal">
                     {formatNumberVND(packageItem.originalPrice)}
                   </div>
                 </div>
               </div>
 
+              {/* Validation Summary Warning Alert if incomplete */}
+              {formErrorList.length > 0 && (
+                <div className="bg-red-50 border border-red-200 text-red-800 rounded-lg p-3.5 text-xs animate-in fade-in duration-150 space-y-1.5 shadow-xs">
+                  <div className="flex items-center gap-2 font-bold text-red-700">
+                    <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
+                    <span>Vui lòng kiểm tra và nhập đủ các thông tin bắt buộc sau:</span>
+                  </div>
+                  <ul className="list-disc list-inside space-y-0.5 text-red-600 pl-1 font-normal">
+                    {formErrorList.map((err, i) => (
+                      <li key={i}>{err}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               {/* 1. CHOOSE PHYSICAL GIFT */}
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2">
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="block text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                  <label className="block text-xs font-semibold text-blue-900 flex items-center gap-1.5">
                     <Gift className="w-4 h-4 text-orange-500" />
                     <span>1. Chọn Quà Tặng Tựu Trường (Chỉ Có Trong Tháng 8):</span>
                   </label>
-                  <span className="text-[10px] bg-slate-200 text-slate-700 font-bold px-2 py-0.5 rounded-full">
+                  <span className="text-[10px] bg-slate-200 text-slate-700 font-normal px-2 py-0.5 rounded-md">
                     Số lượng có hạn
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-600 italic">
+                <p className="text-[11px] text-slate-500 font-normal">
                   * Quà tặng hiện vật được giao kèm SIM tận KTX/địa chỉ đăng ký Cần Thơ. Áp dụng duy nhất trong tháng 8/2026.
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
                   {packageItem.giftOptions.map((gift) => (
                     <label
                       key={gift}
-                      className={`p-2.5 rounded-xl border text-xs font-bold flex items-center gap-2 cursor-pointer transition ${
+                      className={`p-2.5 rounded-lg border text-xs flex items-center gap-2 cursor-pointer transition font-normal ${
                         chosenGift === gift
-                          ? 'bg-blue-50/70 text-blue-700 border-2 border-blue-600 shadow-xs'
-                          : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-50'
+                          ? 'bg-blue-50/50 text-blue-600 border-blue-600 shadow-xs'
+                          : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
                       }`}
                     >
                       <input
@@ -280,7 +343,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                         onChange={() => setChosenGift(gift)}
                         className="hidden"
                       />
-                      <Gift className="w-3.5 h-3.5 shrink-0 text-orange-500" />
+                      <Gift className={`w-3.5 h-3.5 shrink-0 ${chosenGift === gift ? 'text-blue-600' : 'text-orange-500'}`} />
                       <span className="truncate">{gift}</span>
                     </label>
                   ))}
@@ -289,15 +352,15 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
 
               {/* 2. CHOOSE SIM FORMAT */}
               <div>
-                <label className="block text-xs font-bold text-slate-800 mb-2 flex items-center gap-1.5">
+                <label className="block text-xs font-semibold text-blue-900 mb-2 flex items-center gap-1.5">
                   <Smartphone className="w-4 h-4 text-blue-600" />
                   <span>2. Chọn Hình Thức Nhận SIM / Kích Hoạt Gói:</span>
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <label
-                    className={`p-3 rounded-xl border text-xs font-bold flex flex-col gap-1 cursor-pointer transition ${
+                    className={`p-3 rounded-lg border text-xs flex flex-col gap-1 cursor-pointer transition font-normal ${
                       simOption === 'new_sim_physical'
-                        ? 'bg-blue-50/70 border-2 border-blue-600 text-blue-700 shadow-xs'
+                        ? 'bg-blue-50/50 border-blue-600 text-blue-600 shadow-xs'
                         : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
@@ -305,20 +368,29 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       type="radio"
                       name="sim-opt"
                       checked={simOption === 'new_sim_physical'}
-                      onChange={() => setSimOption('new_sim_physical')}
+                      onChange={() => {
+                        setSimOption('new_sim_physical');
+                        if (fieldErrors.existingPhone) {
+                          setFieldErrors(prev => {
+                            const u = { ...prev };
+                            delete u.existingPhone;
+                            return u;
+                          });
+                        }
+                      }}
                       className="hidden"
                     />
                     <div className="flex items-center gap-1">
-                      <Truck className="w-3.5 h-3.5 text-blue-600" />
+                      <Truck className={`w-3.5 h-3.5 ${simOption === 'new_sim_physical' ? 'text-blue-600' : 'text-slate-500'}`} />
                       <span>SIM Mới Vật Lý</span>
                     </div>
-                    <span className="text-[10px] font-normal text-slate-500">Giao KTX trong 15 phút</span>
+                    <span className="text-[10px] text-slate-500">Giao KTX trong 15 phút</span>
                   </label>
 
                   <label
-                    className={`p-3 rounded-xl border text-xs font-bold flex flex-col gap-1 cursor-pointer transition ${
+                    className={`p-3 rounded-lg border text-xs flex flex-col gap-1 cursor-pointer transition font-normal ${
                       simOption === 'new_sim_esim'
-                        ? 'bg-blue-50/70 border-2 border-blue-600 text-blue-700 shadow-xs'
+                        ? 'bg-blue-50/50 border-blue-600 text-blue-600 shadow-xs'
                         : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
@@ -326,20 +398,29 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       type="radio"
                       name="sim-opt"
                       checked={simOption === 'new_sim_esim'}
-                      onChange={() => setSimOption('new_sim_esim')}
+                      onChange={() => {
+                        setSimOption('new_sim_esim');
+                        if (fieldErrors.existingPhone) {
+                          setFieldErrors(prev => {
+                            const u = { ...prev };
+                            delete u.existingPhone;
+                            return u;
+                          });
+                        }
+                      }}
                       className="hidden"
                     />
                     <div className="flex items-center gap-1">
-                      <QrCode className="w-3.5 h-3.5 text-blue-600" />
+                      <QrCode className={`w-3.5 h-3.5 ${simOption === 'new_sim_esim' ? 'text-blue-600' : 'text-slate-500'}`} />
                       <span>Mã QR eSIM</span>
                     </div>
-                    <span className="text-[10px] font-normal text-slate-500">Quét kích hoạt 3 phút</span>
+                    <span className="text-[10px] text-slate-500">Quét kích hoạt 3 phút</span>
                   </label>
 
                   <label
-                    className={`p-3 rounded-xl border text-xs font-bold flex flex-col gap-1 cursor-pointer transition ${
+                    className={`p-3 rounded-lg border text-xs flex flex-col gap-1 cursor-pointer transition font-normal ${
                       simOption === 'existing_sim'
-                        ? 'bg-blue-50/70 border-2 border-blue-600 text-blue-700 shadow-xs'
+                        ? 'bg-blue-50/50 border-blue-600 text-blue-600 shadow-xs'
                         : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
@@ -351,76 +432,103 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       className="hidden"
                     />
                     <div className="flex items-center gap-1">
-                      <Zap className="w-3.5 h-3.5 text-blue-600" />
+                      <Zap className={`w-3.5 h-3.5 ${simOption === 'existing_sim' ? 'text-blue-600' : 'text-slate-500'}`} />
                       <span>Gán SIM Đang Dùng</span>
                     </div>
-                    <span className="text-[10px] font-normal text-slate-500">Dùng số Vina hiện tại</span>
+                    <span className="text-[10px] text-slate-500">Dùng số Vina hiện tại</span>
                   </label>
                 </div>
 
                 {simOption === 'existing_sim' && (
                   <div className="mt-2.5">
-                    <label className="block text-[11px] font-bold text-slate-700 mb-1">
-                      Nhập số thuê bao VinaPhone đang dùng *:
+                    <label className="block text-[11px] font-medium text-slate-700 mb-1">
+                      Nhập số thuê bao VinaPhone đang dùng <span className="text-red-500 font-bold">*</span>:
                     </label>
                     <input
                       type="tel"
-                      required
                       value={existingPhone}
-                      onChange={(e) => setExistingPhone(e.target.value)}
+                      onChange={(e) => handleFieldChange('existingPhone', e.target.value, setExistingPhone)}
                       placeholder="VD: 0912345678"
-                      className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:bg-white focus:border-blue-600 focus:outline-none"
+                      className={`w-full px-3.5 py-2 bg-slate-50 border rounded-lg text-xs sm:text-sm font-normal focus:bg-white focus:outline-none transition ${
+                        fieldErrors.existingPhone
+                          ? 'border-red-400 focus:border-red-600 bg-red-50/20'
+                          : 'border-slate-200 focus:border-blue-600'
+                      }`}
                     />
+                    {fieldErrors.existingPhone && (
+                      <p className="text-[11px] text-red-600 mt-1 font-normal flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3 text-red-500 shrink-0" />
+                        <span>{fieldErrors.existingPhone}</span>
+                      </p>
+                    )}
                   </div>
                 )}
               </div>
 
               {/* 3. STUDENT INFORMATION */}
               <div className="space-y-3 pt-1">
-                <label className="block text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                <label className="block text-xs font-semibold text-blue-900 flex items-center gap-1.5">
                   <School className="w-4 h-4 text-blue-600" />
                   <span>3. Thông Tin Học Sinh - Sinh Viên & Địa Chỉ Nhận Hàng:</span>
                 </label>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-700 mb-1">
-                      Họ và tên bạn *:
+                    <label className="block text-[11px] font-medium text-slate-700 mb-1">
+                      Họ và tên bạn <span className="text-red-500 font-bold">*</span>:
                     </label>
                     <input
                       type="text"
-                      required
                       value={customerName}
-                      onChange={(e) => setCustomerName(e.target.value)}
+                      onChange={(e) => handleFieldChange('customerName', e.target.value, setCustomerName)}
                       placeholder="VD: Nguyễn Văn An"
-                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:bg-white focus:border-blue-600 focus:outline-none"
+                      className={`w-full px-3.5 py-2.5 bg-slate-50 border rounded-lg text-xs sm:text-sm font-normal focus:bg-white focus:outline-none transition ${
+                        fieldErrors.customerName
+                          ? 'border-red-400 focus:border-red-600 bg-red-50/20'
+                          : 'border-slate-200 focus:border-blue-600'
+                      }`}
                     />
+                    {fieldErrors.customerName && (
+                      <p className="text-[11px] text-red-600 mt-1 font-normal flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3 text-red-500 shrink-0" />
+                        <span>{fieldErrors.customerName}</span>
+                      </p>
+                    )}
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-700 mb-1">
-                      Số điện thoại nhận hàng/Zalo *:
+                    <label className="block text-[11px] font-medium text-slate-700 mb-1">
+                      Số điện thoại nhận hàng/Zalo <span className="text-red-500 font-bold">*</span>:
                     </label>
                     <input
                       type="tel"
-                      required
                       value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
+                      onChange={(e) => handleFieldChange('phone', e.target.value, setPhone)}
                       placeholder="VD: 0987654321"
-                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:bg-white focus:border-blue-600 focus:outline-none"
+                      className={`w-full px-3.5 py-2.5 bg-slate-50 border rounded-lg text-xs sm:text-sm font-normal focus:bg-white focus:outline-none transition ${
+                        fieldErrors.phone
+                          ? 'border-red-400 focus:border-red-600 bg-red-50/20'
+                          : 'border-slate-200 focus:border-blue-600'
+                      }`}
                     />
+                    {fieldErrors.phone && (
+                      <p className="text-[11px] text-red-600 mt-1 font-normal flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3 text-red-500 shrink-0" />
+                        <span>{fieldErrors.phone}</span>
+                      </p>
+                    )}
                   </div>
                 </div>
 
                 {/* Can Tho Scope Alert */}
-                <div className="bg-slate-50 border border-slate-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-slate-900">
+                <div className="bg-slate-50 border border-slate-200 rounded-lg p-2.5 flex items-center justify-between text-xs text-slate-900 font-normal">
                   <div className="flex items-center gap-2">
-                    <span className="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                    <span className="bg-blue-600 text-white text-[10px] font-medium px-2 py-0.5 rounded-md">
                       TP. CẦN THƠ
                     </span>
-                    <span className="font-semibold">Chỉ phục vụ giao nhanh KTX/Phòng trọ tại khu vực Cần Thơ</span>
+                    <span>Chỉ phục vụ giao nhanh KTX/Phòng trọ tại khu vực Cần Thơ</span>
                   </div>
-                  <a href="tel:0818006881" className="font-bold text-blue-600 hover:underline flex items-center gap-1">
+                  <a href="tel:0818006881" className="font-semibold text-blue-600 hover:underline flex items-center gap-1">
                     <PhoneCall className="w-3.5 h-3.5 text-blue-600" />
                     <span>08.1800 6881</span>
                   </a>
@@ -428,13 +536,13 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-700 mb-1">
-                      Trường Học / Viện / Ký Túc Xá tại Cần Thơ *:
+                    <label className="block text-[11px] font-medium text-slate-700 mb-1">
+                      Trường Học / Viện / Ký Túc Xá tại Cần Thơ <span className="text-red-500 font-bold">*</span>:
                     </label>
                     <select
                       value={schoolName}
                       onChange={(e) => setSchoolName(e.target.value)}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:border-blue-600 focus:outline-none"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-normal text-slate-800 focus:bg-white focus:border-blue-600 focus:outline-none"
                     >
                       {CAN_THO_SCHOOLS.map((school) => (
                         <option key={school} value={school}>
@@ -445,13 +553,13 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-700 mb-1">
-                      Quận / Huyện nhận SIM *:
+                    <label className="block text-[11px] font-medium text-slate-700 mb-1">
+                      Quận / Huyện nhận SIM <span className="text-red-500 font-bold">*</span>:
                     </label>
                     <select
                       value={district}
                       onChange={(e) => setDistrict(e.target.value)}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:border-blue-600 focus:outline-none"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-normal text-slate-800 focus:bg-white focus:border-blue-600 focus:outline-none"
                     >
                       {CAN_THO_DISTRICTS.map((d) => (
                         <option key={d} value={d}>
@@ -464,7 +572,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                    <label className="block text-[11px] font-medium text-slate-700 mb-1">
                       Mã Sinh Viên / Lớp (Tùy chọn):
                     </label>
                     <input
@@ -472,37 +580,46 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       value={studentId}
                       onChange={(e) => setStudentId(e.target.value)}
                       placeholder="VD: B2201234 - K48 ĐH Cần Thơ"
-                      className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:border-blue-600 focus:outline-none"
+                      className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-normal focus:bg-white focus:border-blue-600 focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-700 mb-1">
-                      Địa chỉ chi tiết / Phòng KTX / Nhà trọ *:
+                    <label className="block text-[11px] font-medium text-slate-700 mb-1">
+                      Địa chỉ chi tiết / Phòng KTX / Nhà trọ <span className="text-red-500 font-bold">*</span>:
                     </label>
                     <input
                       type="text"
-                      required
                       value={address}
-                      onChange={(e) => setAddress(e.target.value)}
+                      onChange={(e) => handleFieldChange('address', e.target.value, setAddress)}
                       placeholder="VD: Phòng 204 KTX Khu 2 ĐHCT, Đ. 3/2"
-                      className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:border-blue-600 focus:outline-none"
+                      className={`w-full px-3.5 py-2 bg-slate-50 border rounded-lg text-xs font-normal focus:bg-white focus:outline-none transition ${
+                        fieldErrors.address
+                          ? 'border-red-400 focus:border-red-600 bg-red-50/20'
+                          : 'border-slate-200 focus:border-blue-600'
+                      }`}
                     />
+                    {fieldErrors.address && (
+                      <p className="text-[11px] text-red-600 mt-1 font-normal flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3 text-red-500 shrink-0" />
+                        <span>{fieldErrors.address}</span>
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
 
               {/* 4. PAYMENT METHOD */}
               <div>
-                <label className="block text-xs font-bold text-slate-800 mb-2 flex items-center gap-1.5">
+                <label className="block text-xs font-semibold text-blue-900 mb-2 flex items-center gap-1.5">
                   <CreditCard className="w-4 h-4 text-blue-600" />
                   <span>4. Phương Thức Thanh Toán:</span>
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   <label
-                    className={`p-2.5 rounded-xl border text-center text-xs font-bold cursor-pointer transition ${
+                    className={`p-2.5 rounded-lg border text-center text-xs cursor-pointer transition font-normal ${
                       paymentMethod === 'vietqr'
-                        ? 'bg-blue-50/70 border-2 border-blue-600 text-blue-700 shadow-xs'
+                        ? 'bg-blue-50/50 border-blue-600 text-blue-600 shadow-xs'
                         : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
@@ -513,14 +630,14 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       onChange={() => setPaymentMethod('vietqr')}
                       className="hidden"
                     />
-                    <div className="font-bold">VietQR</div>
-                    <div className="text-[10px] text-slate-400 font-normal">Quét mã nhanh</div>
+                    <div className="font-medium">VietQR</div>
+                    <div className="text-[10px] text-slate-400">Quét mã nhanh</div>
                   </label>
 
                   <label
-                    className={`p-2.5 rounded-xl border text-center text-xs font-bold cursor-pointer transition ${
+                    className={`p-2.5 rounded-lg border text-center text-xs cursor-pointer transition font-normal ${
                       paymentMethod === 'cod'
-                        ? 'bg-blue-50/70 border-2 border-blue-600 text-blue-700 shadow-xs'
+                        ? 'bg-blue-50/50 border-blue-600 text-blue-600 shadow-xs'
                         : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
@@ -531,14 +648,14 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       onChange={() => setPaymentMethod('cod')}
                       className="hidden"
                     />
-                    <div className="font-bold">Tiền Mặt (COD)</div>
-                    <div className="text-[10px] text-slate-400 font-normal">Trả khi nhận sim</div>
+                    <div className="font-medium">Tiền Mặt (COD)</div>
+                    <div className="text-[10px] text-slate-400">Trả khi nhận sim</div>
                   </label>
 
                   <label
-                    className={`p-2.5 rounded-xl border text-center text-xs font-bold cursor-pointer transition ${
+                    className={`p-2.5 rounded-lg border text-center text-xs cursor-pointer transition font-normal ${
                       paymentMethod === 'momo'
-                        ? 'bg-blue-50/70 border-2 border-blue-600 text-blue-700 shadow-xs'
+                        ? 'bg-blue-50/50 border-blue-600 text-blue-600 shadow-xs'
                         : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
@@ -549,14 +666,14 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       onChange={() => setPaymentMethod('momo')}
                       className="hidden"
                     />
-                    <div className="font-bold text-slate-900">Ví MoMo</div>
-                    <div className="text-[10px] text-slate-400 font-normal">Thanh toán ví</div>
+                    <div className="font-medium">Ví MoMo</div>
+                    <div className="text-[10px] text-slate-400">Thanh toán ví</div>
                   </label>
 
                   <label
-                    className={`p-2.5 rounded-xl border text-center text-xs font-bold cursor-pointer transition ${
+                    className={`p-2.5 rounded-lg border text-center text-xs cursor-pointer transition font-normal ${
                       paymentMethod === 'vnpay'
-                        ? 'bg-blue-50/70 border-2 border-blue-600 text-blue-700 shadow-xs'
+                        ? 'bg-blue-50/50 border-blue-600 text-blue-600 shadow-xs'
                         : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
@@ -567,8 +684,8 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       onChange={() => setPaymentMethod('vnpay')}
                       className="hidden"
                     />
-                    <div className="font-bold text-blue-700">VNPay QR</div>
-                    <div className="text-[10px] text-slate-400 font-normal">Thẻ / App Bank</div>
+                    <div className="font-medium">VNPay QR</div>
+                    <div className="text-[10px] text-slate-400">Thẻ / App Bank</div>
                   </label>
                 </div>
               </div>
@@ -577,12 +694,12 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold text-xs sm:text-sm shadow-xs transition flex items-center justify-center gap-1.5 cursor-pointer"
+                  className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium text-xs sm:text-sm shadow-xs transition flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <Zap className="w-4 h-4 text-white" />
                   <span>XÁC NHẬN ĐĂNG KÝ GÓI • {formatNumberVND(packageItem.price)}</span>
                 </button>
-                <div className="flex items-center justify-center gap-2 text-[11px] text-slate-500 mt-2">
+                <div className="flex items-center justify-center gap-2 text-[11px] text-slate-500 mt-2 font-normal">
                   <ShieldCheck className="w-4 h-4 text-blue-600" />
                   <span>Cam kết bảo mật thông tin sinh viên 100% • Hỗ trợ đăng ký chính chủ miễn phí</span>
                 </div>
@@ -596,3 +713,4 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
     </div>
   );
 };
+

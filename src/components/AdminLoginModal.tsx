@@ -39,19 +39,19 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/70 flex items-center justify-center p-4 overflow-y-auto" id="admin-login-modal">
-      <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl relative border border-slate-200">
+      <div className="bg-white rounded-xl max-w-md w-full p-6 sm:p-7 shadow-2xl relative border border-slate-200">
         
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition cursor-pointer"
+          className="absolute top-5 right-5 p-2 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-500 transition cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Icon & Title */}
         <div className="text-center space-y-2 mb-6">
-          <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto border border-blue-200">
+          <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mx-auto border border-blue-200">
             <Lock className="w-7 h-7" />
           </div>
           <h3 className="text-xl font-black text-slate-900 tracking-tight">
@@ -83,7 +83,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
                   setErrorMsg('');
                 }}
                 placeholder="Nhập mã PIN (VD: 1800)"
-                className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-300 focus:border-blue-600 rounded-2xl text-sm font-mono tracking-widest text-slate-900 focus:bg-white focus:outline-none transition"
+                className="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-300 focus:border-blue-600 rounded-lg text-sm font-mono tracking-widest text-slate-900 focus:bg-white focus:outline-none transition"
               />
               <KeyRound className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               
@@ -97,7 +97,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
             </div>
 
             {errorMsg && (
-              <div className="mt-2 text-xs text-slate-800 bg-slate-100 p-2 rounded-xl border border-slate-300 font-bold flex items-center gap-1.5">
+              <div className="mt-2 text-xs text-slate-800 bg-slate-100 p-2 rounded-lg border border-slate-300 font-bold flex items-center gap-1.5">
                 <AlertCircle className="w-4 h-4 shrink-0 text-blue-600" />
                 <span>{errorMsg}</span>
               </div>
@@ -106,7 +106,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
 
           <button
             type="submit"
-            className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-2xl shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm rounded-lg shadow-xs transition flex items-center justify-center gap-2 cursor-pointer"
           >
             <span>Đăng Nhập Trang Quản Trị</span>
             <ArrowRight className="w-4 h-4" />

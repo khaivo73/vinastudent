@@ -32,7 +32,7 @@ export const OfficialTableComparison: React.FC<OfficialTableComparisonProps> = (
   if (isModal && !isOpen) return null;
 
   const content = (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden" id="official-packages-table">
+    <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden" id="official-packages-table">
       
       {/* Table Header / Title */}
       <div className="bg-white border-b border-slate-200 p-5 sm:p-6 flex items-center justify-between text-slate-900">
@@ -48,7 +48,7 @@ export const OfficialTableComparison: React.FC<OfficialTableComparisonProps> = (
         {isModal && onClose && (
           <button
             onClick={onClose}
-            className="p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition cursor-pointer"
+            className="p-2 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>

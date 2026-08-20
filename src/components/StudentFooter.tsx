@@ -12,14 +12,14 @@ export const StudentFooter: React.FC = () => {
           {/* Col 1: Brand Info */}
           <div className="lg:col-span-5 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-md">
+              <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-xs">
                 <GraduationCap className="w-6 h-6 text-white" />
               </div>
               <div>
                 <div className="flex items-center gap-1">
                   <span className="text-xl font-black text-slate-900">Vina</span>
                   <span className="text-xl font-black text-blue-600">Student</span>
-                  <span className="text-[10px] bg-blue-600 text-white font-bold px-1.5 py-0.2 rounded ml-1">
+                  <span className="text-[10px] bg-blue-600 text-white font-bold px-1.5 py-0.2 rounded-md ml-1">
                     2026
                   </span>
                 </div>

@@ -40,7 +40,7 @@ export const StudentPackageGrid: React.FC<StudentPackageGridProps> = ({
 
   if (packages.length === 0) {
     return (
-      <div className="py-16 text-center bg-white rounded-3xl p-8 border border-slate-200 shadow-sm max-w-2xl mx-auto my-8">
+      <div className="py-16 text-center bg-white rounded-xl p-8 border border-slate-200 shadow-xs max-w-2xl mx-auto my-8">
         <GraduationCap className="w-12 h-12 text-slate-300 mx-auto mb-3" />
         <h3 className="text-lg font-bold text-slate-900">Không tìm thấy gói cước phù hợp</h3>
         <p className="text-xs text-slate-500 mt-1 mb-4">
@@ -48,7 +48,7 @@ export const StudentPackageGrid: React.FC<StudentPackageGridProps> = ({
         </p>
         <button
           onClick={onResetFilter}
-          className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-full text-xs font-bold transition cursor-pointer shadow-sm"
+          className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition cursor-pointer shadow-xs"
         >
           Xem Tất Cả 16 Gói Cước
         </button>
@@ -63,7 +63,7 @@ export const StudentPackageGrid: React.FC<StudentPackageGridProps> = ({
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 sm:mb-8">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold uppercase mb-1.5 border border-blue-200">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-bold uppercase mb-1.5 border border-blue-200">
               <Sparkles className="w-3.5 h-3.5 text-blue-600" />
               <span>DANH SÁCH 16 GÓI CƯỚC MÙA TỰU TRƯỜNG</span>
             </div>
@@ -76,7 +76,7 @@ export const StudentPackageGrid: React.FC<StudentPackageGridProps> = ({
           </div>
 
           {/* Month 8 Limited Gift Reminder */}
-          <div className="bg-slate-50 border border-slate-200 text-slate-900 px-4 py-2.5 rounded-2xl flex items-center gap-2.5 text-xs font-bold shadow-xs">
+          <div className="bg-slate-50 border border-slate-200 text-slate-900 px-4 py-2.5 rounded-xl flex items-center gap-2.5 text-xs font-bold shadow-xs">
             <Gift className="w-5 h-5 text-blue-600 shrink-0" />
             <div>
               <span className="text-blue-700 font-bold">ƯU ĐÃI THÁNG 8/2026:</span> Tặng 100% quà hiện vật (Mũ BH, Áo mưa, Quạt mini...)
@@ -92,7 +92,7 @@ export const StudentPackageGrid: React.FC<StudentPackageGridProps> = ({
             return (
               <div
                 key={pkg.id}
-                className="bg-white rounded-2xl border border-slate-200 hover:border-blue-500 shadow-sm transition flex flex-col justify-between overflow-hidden relative group"
+                className="bg-white rounded-xl border border-slate-200 hover:border-blue-500 shadow-xs transition flex flex-col justify-between overflow-hidden relative group"
               >
                 
                 {/* Top Card Badge / Demand & Discount */}
