@@ -26,7 +26,7 @@ export const StudentPerksSection: React.FC = () => {
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
             Đặc Quyền Vàng Dành Riêng Cho Học Sinh - Sinh Viên
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500">
+          <p className="text-xs sm:text-sm text-slate-800 font-normal">
             VinaPhone cam kết mang đến dịch vụ viễn thông tốc độ cao, giá rẻ nhất và trải nghiệm nhận SIM thuận tiện nhất cho mùa tựu trường 2026.
           </p>
         </div>
@@ -39,21 +39,21 @@ export const StudentPerksSection: React.FC = () => {
               <Truck className="w-6 h-6" />
             </div>
             <h3 className="font-bold text-base text-slate-900">Giao Nhanh 15 Phút Tận KTX Cần Thơ</h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
+            <p className="text-xs text-slate-800 leading-relaxed font-normal">
               Đội ngũ shipper VinaPhone Cần Thơ túc trực tại các cụm KTX ĐH Cần Thơ, KTX ĐH Y Dược, ĐH Nam Cần Thơ, FPT, Kỹ thuật - Công nghệ... để giao SIM tận tay sau 15 phút.
             </p>
           </div>
 
           <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-3 shadow-xs relative overflow-hidden">
-            <span className="absolute top-3 right-3 bg-blue-50 text-blue-700 border border-blue-200 text-[9px] font-bold uppercase px-2 py-0.5 rounded-md">
-              Tháng 8/2026
+            <span className="absolute top-3 right-3 bg-orange-50 text-orange-700 border border-orange-200 text-[9px] font-bold uppercase px-2 py-0.5 rounded-md">
+              Tựu Trường 2026
             </span>
-            <div className="w-12 h-12 rounded-lg bg-blue-600 text-white flex items-center justify-center shadow-xs">
+            <div className="w-12 h-12 rounded-lg bg-orange-500 text-white flex items-center justify-center shadow-xs">
               <Gift className="w-6 h-6" />
             </div>
-            <h3 className="font-bold text-base text-slate-900">Quà Tặng Tháng 8 (Có Hạn)</h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Tất cả các gói cước 1T, 3T, 6T, 12T đều được tặng kèm vật phẩm: Mũ bảo hiểm, Áo mưa, Bình nước, Sổ tay hoặc Quạt tích điện mini — <strong>Số lượng có hạn, áp dụng duy nhất trong Tháng 8/2026 tại TP. Cần Thơ</strong>.
+            <h3 className="font-bold text-base text-slate-900">Quà Tặng Tựu Trường (Có Hạn)</h3>
+            <p className="text-xs text-slate-800 leading-relaxed font-normal">
+              Tất cả các gói cước 1T, 3T, 6T, 12T đều được tặng kèm vật phẩm: Mũ bảo hiểm, Áo mưa, Bình nước, Sổ tay hoặc Quạt tích điện mini — <strong>Số lượng có hạn tại TP. Cần Thơ</strong>.
             </p>
           </div>
 
@@ -62,7 +62,7 @@ export const StudentPerksSection: React.FC = () => {
               <ShieldCheck className="w-6 h-6" />
             </div>
             <h3 className="font-bold text-base text-slate-900">Đăng Ký Chính Chủ 0đ</h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
+            <p className="text-xs text-slate-800 leading-relaxed font-normal">
               Hỗ trợ kích hoạt và đăng ký thông tin chính chủ miễn phí 100% theo CCCD/Thẻ học sinh sinh viên chuẩn quy định Bộ TTTT.
             </p>
           </div>
@@ -72,7 +72,7 @@ export const StudentPerksSection: React.FC = () => {
               <QrCode className="w-6 h-6" />
             </div>
             <h3 className="font-bold text-base text-slate-900">Nhận eSIM Kích Hoạt 3 Phút</h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
+            <p className="text-xs text-slate-800 leading-relaxed font-normal">
               Nhận mã QR eSIM tức thì qua Zalo hoặc SMS, quét mã trực tiếp trên điện thoại để có mạng 4G/5G dùng ngay không cần chờ giao sim vật lý.
             </p>
           </div>
@@ -89,8 +89,8 @@ export const StudentPerksSection: React.FC = () => {
             <h3 className="text-xl sm:text-2xl font-black text-slate-900">
               Bạn Cần Hỗ Trợ Đăng Ký Trực Tiếp Tại Trường Ở Cần Thơ?
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600 max-w-xl">
-              Gian hàng VinaPhone hiện diện tại các điểm trường ĐH Cần Thơ (Khu 1, Khu 2, Khu 3), ĐH Y Dược, ĐH Nam Cần Thơ, ĐH FPT, Cao đẳng Cần Thơ trong suốt mùa tựu trường tháng 8.
+            <p className="text-xs sm:text-sm text-slate-800 max-w-xl font-normal">
+              Gian hàng VinaPhone hiện diện tại các điểm trường ĐH Cần Thơ (Khu 1, Khu 2, Khu 3), ĐH Y Dược, ĐH Nam Cần Thơ, ĐH FPT, Cao đẳng Cần Thơ trong suốt mùa tựu trường.
             </p>
           </div>
 

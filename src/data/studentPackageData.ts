@@ -2,9 +2,9 @@ import { StudentPackage } from '../types';
 
 export const AUGUST_CAMPAIGN_INFO = {
   title: 'Chương Trình Khuyến Mại Mùa Tựu Trường VinaPhone Cần Thơ',
-  period: 'Duy nhất trong Tháng 8/2026 (01/08 - 31/08/2026)',
-  giftUrgencyWarning: '⚠️ LƯU Ý QUAN TRỌNG: Số lượng vật phẩm quà tặng có hạn và CHỈ ÁP DỤNG DUY NHẤT TRONG THÁNG 8. Chương trình có thể kết thúc sớm khi hết quà tặng!',
-  giftStockBadge: 'Quà Tặng Tháng 8 Có Hạn',
+  period: 'Mùa Tựu Trường 2026 (01/08 - 31/08/2026)',
+  giftUrgencyWarning: '⚠️ LƯU Ý QUAN TRỌNG: Số lượng vật phẩm quà tặng có hạn cho mùa tựu trường. Chương trình có thể kết thúc sớm khi hết quà tặng!',
+  giftStockBadge: 'Quà Tặng Tựu Trường Có Hạn',
   daysRemainingInAugust: 12,
   hotline: '08.1800 6881',
   hotlineFormatted: '08.1800 6881',

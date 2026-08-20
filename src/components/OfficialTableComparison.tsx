@@ -40,7 +40,7 @@ export const OfficialTableComparison: React.FC<OfficialTableComparisonProps> = (
           <h3 className="text-lg sm:text-2xl font-black text-slate-900">
             Bảng Giá Khuyến Nghị & Quà Tặng 16 Gói Cước Mùa Tựu Trường
           </h3>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-slate-800 mt-0.5 font-normal">
             Áp dụng cho học sinh, sinh viên các trường Đại học, Cao đẳng tại TP. Cần Thơ
           </p>
         </div>
@@ -48,7 +48,7 @@ export const OfficialTableComparison: React.FC<OfficialTableComparisonProps> = (
         {isModal && onClose && (
           <button
             onClick={onClose}
-            className="p-2 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 transition cursor-pointer"
+            className="p-2 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-800 transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -57,9 +57,9 @@ export const OfficialTableComparison: React.FC<OfficialTableComparisonProps> = (
 
       {/* FULL 16-PACKAGE PRICING & GIFT TABLE */}
       <div className="overflow-x-auto">
-        <div className="px-5 py-3 bg-slate-50 border-b border-slate-200 font-bold text-xs text-slate-700 flex items-center justify-between">
-          <span className="uppercase text-slate-900 tracking-wide">Chi Tiết Giá & Quà Tặng Kèm Theo Từng Chu Kỳ</span>
-          <span className="text-[11px] text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md font-semibold">🎁 Quà tặng áp dụng trong Tháng 8</span>
+        <div className="px-5 py-3 bg-slate-50 border-b border-slate-200 font-semibold text-xs text-slate-800 flex items-center justify-between">
+          <span className="uppercase text-slate-900 tracking-wide font-bold">Chi Tiết Giá & Quà Tặng Kèm Theo Từng Chu Kỳ</span>
+          <span className="text-[11px] text-orange-700 bg-orange-50 border border-orange-200 px-2 py-0.5 rounded-md font-semibold">🎁 Quà tặng tựu trường trao kèm</span>
         </div>
         <table className="w-full text-left text-xs sm:text-sm border-collapse min-w-[700px]">
           <thead>
@@ -68,11 +68,11 @@ export const OfficialTableComparison: React.FC<OfficialTableComparisonProps> = (
               <th className="py-3 px-4 border-r border-slate-200 text-center">Chu Kỳ</th>
               <th className="py-3 px-3 border-r border-slate-200 text-center">Ưu Đãi Giá</th>
               <th className="py-3 px-4 border-r border-slate-200 text-right">Giá Bán Khuyến Nghị</th>
-              <th className="py-3 px-4 border-r border-slate-200">Vật Phẩm Quà Tặng (Tháng 8)</th>
+              <th className="py-3 px-4 border-r border-slate-200">Vật Phẩm Quà Tặng Kèm</th>
               <th className="py-3 px-4 text-center">Đăng Ký</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-200 font-medium">
+          <tbody className="divide-y divide-slate-200 font-normal">
             {STUDENT_PACKAGES.map((pkg, idx) => {
               const isGroupStart = idx % 4 === 0;
               return (
@@ -95,7 +95,7 @@ export const OfficialTableComparison: React.FC<OfficialTableComparisonProps> = (
                           </span>
                         )}
                       </div>
-                      <div className="text-[11px] font-medium text-slate-500">{pkg.dataAllowance}</div>
+                      <div className="text-[11px] font-semibold text-orange-600">{pkg.dataAllowance}</div>
                     </div>
                   </td>
 
@@ -103,7 +103,7 @@ export const OfficialTableComparison: React.FC<OfficialTableComparisonProps> = (
                   <td className="py-3 px-4 border-r border-slate-200 text-center">
                     <span className="font-bold text-slate-800">{pkg.cycle}</span>
                     {pkg.bonusText && (
-                      <div className="text-[10px] font-bold text-orange-600">{pkg.bonusText}</div>
+                      <div className="text-[10px] font-semibold text-orange-600">{pkg.bonusText}</div>
                     )}
                   </td>
 
@@ -119,19 +119,19 @@ export const OfficialTableComparison: React.FC<OfficialTableComparisonProps> = (
                     <div className="font-bold text-sm sm:text-base text-slate-900 font-mono">
                       {formatNumberVND(pkg.price)}
                     </div>
-                    <div className="text-[10px] text-slate-400 line-through">
+                    <div className="text-[10px] text-slate-800 line-through">
                       {formatNumberVND(pkg.originalPrice)}
                     </div>
                   </td>
 
                   {/* Physical Gift */}
                   <td className="py-3 px-4 border-r border-slate-200">
-                    <div className="flex items-center gap-1.5 font-semibold text-slate-800">
+                    <div className="flex items-center gap-1.5 font-semibold text-orange-600">
                       <Gift className="w-4 h-4 text-orange-500 shrink-0" />
                       <span>{pkg.giftText}</span>
                     </div>
-                    <span className="text-[10px] text-slate-500 font-medium block mt-0.5">
-                      Duy nhất trong Tháng 8/2026
+                    <span className="text-[10px] text-slate-800 font-normal block mt-0.5">
+                      Giao tận tay KTX / phòng trọ
                     </span>
                   </td>
 

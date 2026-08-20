@@ -34,19 +34,19 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
         {/* Urgent August Banner */}
         <div className="bg-blue-50 text-slate-900 rounded-xl p-3.5 sm:p-4 border border-blue-200 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
           <div className="flex items-center gap-3 text-center sm:text-left">
-            <div className="w-10 h-10 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold shrink-0">
+            <div className="w-10 h-10 rounded-lg bg-orange-500 text-white flex items-center justify-center font-bold shrink-0">
               <Gift className="w-5 h-5 text-white" />
             </div>
             <div>
               <div className="flex items-center gap-2 justify-center sm:justify-start">
-                <span className="bg-blue-600 text-white text-[10px] font-bold uppercase px-2 py-0.5 rounded-md">
-                  DUY NHẤT THÁNG 8/2026
+                <span className="bg-orange-500 text-white text-[10px] font-bold uppercase px-2 py-0.5 rounded-md">
+                  ƯU ĐÃI TỰU TRƯỜNG 2026
                 </span>
-                <span className="text-xs font-bold text-blue-700">
+                <span className="text-xs font-bold text-orange-600">
                   Số Lượng Quà Tặng Có Hạn!
                 </span>
               </div>
-              <p className="text-xs sm:text-sm font-medium text-slate-700 mt-0.5">
+              <p className="text-xs sm:text-sm font-medium text-slate-800 mt-0.5">
                 {AUGUST_CAMPAIGN_INFO.giftUrgencyWarning}
               </p>
             </div>
@@ -69,11 +69,11 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
               <span className="text-blue-600">
                 TP. Cần Thơ Giảm 50%
               </span>{' '}
-              + 100% Quà
+              + <span className="text-orange-500">100% Quà</span>
             </h1>
 
-            <p className="text-xs sm:text-base text-slate-600 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Trọn bộ 16 gói cước tối ưu riêng cho Học sinh, Sinh viên các trường <strong>ĐH Cần Thơ, ĐH Y Dược, ĐH Nam Cần Thơ, FPT, Kỹ thuật - Công nghệ, Tây Đô, Cao đẳng...</strong> Giao nhanh tận KTX/Phòng trọ sau 15 phút, tặng Mũ bảo hiểm, Áo mưa, Bình nước, Quạt mini Tháng 8.
+            <p className="text-xs sm:text-base text-slate-800 max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
+              Trọn bộ 16 gói cước tối ưu riêng cho Học sinh, Sinh viên các trường <strong>ĐH Cần Thơ, ĐH Y Dược, ĐH Nam Cần Thơ, FPT, Kỹ thuật - Công nghệ, Tây Đô, Cao đẳng...</strong> Giao nhanh tận KTX/Phòng trọ sau 15 phút, tặng Mũ bảo hiểm, Áo mưa, Bình nước, Quạt mini.
             </p>
 
             {/* Quick action buttons */}
@@ -83,7 +83,7 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
                   const el = document.getElementById('student-packages-grid');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-xs sm:text-sm shadow-sm transition flex items-center gap-2 cursor-pointer"
+                className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium text-xs sm:text-sm shadow-sm transition flex items-center gap-2 cursor-pointer"
               >
                 <Flame className="w-4 h-4 text-white" />
                 <span>Xem 16 Gói Cước Mùa Tựu Trường</span>
@@ -91,7 +91,7 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
 
               <button
                 onClick={onOpenQuickTable}
-                className="px-4 py-2.5 bg-white hover:bg-slate-50 text-slate-800 rounded-lg font-semibold text-xs sm:text-sm border border-slate-300 shadow-xs transition flex items-center gap-2 cursor-pointer"
+                className="px-4 py-2.5 bg-white hover:bg-slate-50 text-slate-800 rounded-lg font-medium text-xs sm:text-sm border border-slate-300 shadow-xs transition flex items-center gap-2 cursor-pointer"
               >
                 <Table className="w-4 h-4 text-blue-600" />
                 <span>Bảng Tổng Hợp So Sánh</span>
@@ -106,25 +106,25 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
             <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-1">
               <div className="text-blue-600 font-black text-xl sm:text-2xl font-mono">59.000 đ</div>
               <div className="text-xs font-bold text-slate-900">FCLUB 1T Siêu Rẻ</div>
-              <div className="text-[10px] text-slate-500">Gói tiết kiệm, 3GB/ngày, gọi 1.500p</div>
+              <div className="text-[10px] text-slate-800 font-normal">Gói tiết kiệm, <span className="text-orange-600 font-semibold">3GB/ngày</span>, gọi 1.500p</div>
             </div>
 
             <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-1">
-              <div className="text-blue-600 font-black text-xl sm:text-2xl font-mono">8GB / Ngày</div>
+              <div className="text-orange-600 font-black text-xl sm:text-2xl font-mono">8GB / Ngày</div>
               <div className="text-xs font-bold text-slate-900">SODA125 Học Online</div>
-              <div className="text-[10px] text-slate-500">Free MyTV, TikTok, YouTube</div>
+              <div className="text-[10px] text-slate-800 font-normal">Free MyTV, TikTok, YouTube</div>
             </div>
 
             <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-1">
-              <div className="text-blue-600 font-black text-xl sm:text-2xl font-mono">Cơ Chế 5+1</div>
-              <div className="text-xs font-bold text-slate-900">Tặng 1 - 2 Tháng Cước</div>
-              <div className="text-[10px] text-slate-500">Áp dụng cho gói 6T & 12T (10+2)</div>
+              <div className="text-orange-600 font-black text-xl sm:text-2xl font-mono">Cơ Chế 5+1</div>
+              <div className="text-xs font-bold text-slate-900"><span className="text-orange-600">Tặng 1 - 2 Tháng Cước</span></div>
+              <div className="text-[10px] text-slate-800 font-normal">Áp dụng cho gói 6T & 12T (10+2)</div>
             </div>
 
             <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-1">
               <div className="text-blue-600 font-black text-xl sm:text-2xl font-mono">15 Phút</div>
               <div className="text-xs font-bold text-slate-900">Giao Tận Cổng KTX Cần Thơ</div>
-              <div className="text-[10px] text-slate-500">Hoặc nhận mã eSIM quét trong 3p</div>
+              <div className="text-[10px] text-slate-800 font-normal">Hoặc nhận mã eSIM quét trong 3p</div>
             </div>
 
           </div>
@@ -168,7 +168,7 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
                     {/* Nhu cầu & Gói */}
                     <div className="flex items-center justify-between gap-2 mb-2">
                       <span className={`text-[11px] font-bold uppercase px-2 py-0.5 rounded-md ${
-                        isSelected ? 'bg-blue-100 text-blue-800 border border-blue-200' : 'bg-slate-100 text-slate-700 border border-slate-200'
+                        isSelected ? 'bg-blue-100 text-blue-800 border border-blue-200' : 'bg-slate-100 text-slate-800 border border-slate-200'
                       }`}>
                         {guide.demand}
                       </span>
@@ -178,16 +178,16 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
                     </div>
 
                     {/* Đối tượng */}
-                    <div className="text-xs font-bold mb-3 flex items-start gap-1">
-                      <span className="text-slate-500 font-medium">Đối tượng:</span>
-                      <span className="text-slate-900 font-bold">
+                    <div className="text-xs mb-3 flex items-start gap-1">
+                      <span className="text-slate-800 font-medium">Đối tượng:</span>
+                      <span className="text-orange-600 font-semibold">
                         {guide.targetAudience}
                       </span>
                     </div>
                   </div>
 
                   {/* Filter action button */}
-                  <div className={`pt-2 border-t text-xs font-bold flex items-center justify-between ${
+                  <div className={`pt-2 border-t text-xs font-medium flex items-center justify-between ${
                     isSelected ? 'border-blue-200 text-blue-700' : 'border-slate-200 text-blue-600'
                   }`}>
                     <span>{isSelected ? '✓ Đang chọn nhóm này' : 'Bấm xem các chu kỳ 1T-12T'}</span>

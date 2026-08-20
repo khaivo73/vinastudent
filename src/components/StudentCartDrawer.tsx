@@ -74,10 +74,10 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
           {/* Cart Items List */}
           <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
             {cartItems.length > 0 && (
-              <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 font-bold flex items-center gap-2">
-                <Gift className="w-4 h-4 text-blue-600 shrink-0" />
+              <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 font-medium flex items-center gap-2">
+                <Gift className="w-4 h-4 text-orange-500 shrink-0" />
                 <span>
-                  <strong>Quà tặng có hạn:</strong> Chỉ áp dụng duy nhất trong Tháng 8/2026!
+                  <strong className="text-slate-900">Quà tặng tựu trường:</strong> Tặng kèm 100% khi nhận SIM!
                 </span>
               </div>
             )}
@@ -87,7 +87,7 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
                   <ShoppingCart className="w-8 h-8" />
                 </div>
                 <h4 className="font-bold text-slate-800 text-sm">Giỏ hàng sinh viên đang trống</h4>
-                <p className="text-xs text-slate-500 max-w-xs mx-auto">
+                <p className="text-xs text-slate-800 max-w-xs mx-auto font-normal">
                   Hãy chọn một trong 16 gói cước (FCLUB, YOLO100, SODA125, D159V) để nhận ưu đãi giảm đến 50% và quà tặng nhé!
                 </p>
               </div>
@@ -107,14 +107,14 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
                           -{item.packageItem.discountPercent}%
                         </span>
                       </div>
-                      <p className="text-xs font-semibold text-slate-600">
-                        {item.packageItem.cycle} • {item.packageItem.dataAllowance}
+                      <p className="text-xs font-normal text-slate-800">
+                        <span>{item.packageItem.cycle}</span> • <span className="text-orange-600 font-semibold">{item.packageItem.dataAllowance}</span>
                       </p>
                     </div>
 
                     <button
                       onClick={() => onRemoveItem(idx)}
-                      className="p-1 text-slate-400 hover:text-slate-900 transition cursor-pointer"
+                      className="p-1 text-slate-800 hover:text-red-600 transition cursor-pointer"
                       title="Xóa khỏi giỏ"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -123,14 +123,14 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
 
                   {/* Gift selection box */}
                   <div className="bg-white p-2.5 rounded-lg border border-slate-200 text-xs">
-                    <div className="flex items-center gap-1 text-slate-900 font-bold text-[11px] mb-1">
+                    <div className="flex items-center gap-1 text-slate-900 font-semibold text-[11px] mb-1">
                       <Gift className="w-3.5 h-3.5 text-orange-500 shrink-0" />
-                      <span>Quà Tặng Kèm (Tháng 8):</span>
+                      <span>Quà Tặng Kèm Nhận Cùng SIM:</span>
                     </div>
                     <select
                       value={item.selectedGift}
                       onChange={(e) => onUpdateGift(idx, e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-200 text-slate-900 font-bold rounded-lg px-2 py-1 text-xs focus:outline-none focus:border-blue-600"
+                      className="w-full bg-slate-50 border border-slate-200 text-slate-900 font-medium rounded-lg px-2 py-1 text-xs focus:outline-none focus:border-slate-400"
                     >
                       {item.packageItem.giftOptions.map((g) => (
                         <option key={g} value={g}>
@@ -142,11 +142,11 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
 
                   {/* Format option */}
                   <div className="flex items-center justify-between text-xs pt-1 border-t border-slate-200">
-                    <span className="text-slate-500 font-medium">Nhận dạng:</span>
+                    <span className="text-slate-800 font-medium">Nhận dạng:</span>
                     <select
                       value={item.simOption}
                       onChange={(e) => onUpdateSimOption(idx, e.target.value as any)}
-                      className="bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs font-bold text-slate-700 focus:outline-none focus:border-blue-600"
+                      className="bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs font-medium text-slate-800 focus:outline-none focus:border-slate-400"
                     >
                       <option value="new_sim_physical">SIM Mới (Giao KTX 15p)</option>
                       <option value="new_sim_esim">Mã QR eSIM (3p)</option>
@@ -156,7 +156,7 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
 
                   {/* Price */}
                   <div className="flex items-center justify-between text-xs pt-1">
-                    <span className="text-slate-500">Giá ưu đãi:</span>
+                    <span className="text-slate-800">Giá ưu đãi:</span>
                     <span className="font-bold text-sm text-slate-900 font-mono">
                       {formatNumberVND(item.packageItem.price * item.quantity)}
                     </span>

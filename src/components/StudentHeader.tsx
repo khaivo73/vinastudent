@@ -40,10 +40,10 @@ export const StudentHeader: React.FC<StudentHeaderProps> = ({
     <header className="sticky top-0 z-40 bg-white shadow-sm border-b border-slate-200" id="student-header">
       
       {/* Top Announcement Bar */}
-      <div className="bg-blue-50 text-blue-900 border-b border-blue-200 py-1.5 px-3 text-center text-[11px] sm:text-xs font-bold tracking-wide flex items-center justify-center gap-2">
-        <Gift className="w-4 h-4 text-blue-600 shrink-0" />
+      <div className="bg-blue-50 text-blue-900 border-b border-blue-200 py-1.5 px-3 text-center text-[11px] sm:text-xs font-semibold tracking-wide flex items-center justify-center gap-2">
+        <Gift className="w-4 h-4 text-orange-500 shrink-0" />
         <span className="truncate">
-          <strong>CHIẾN DỊCH TỰU TRƯỜNG CẦN THƠ:</strong> GIẢM ĐẾN 50% • <strong className="text-blue-700">QUÀ TẶNG CÓ HẠN DUY NHẤT THÁNG 8!</strong>
+          <strong>CHIẾN DỊCH TỰU TRƯỜNG CẦN THƠ:</strong> GIẢM ĐẾN 50% • <strong className="text-orange-600">TẶNG 100% QUÀ KÈM THEO SIM!</strong>
         </span>
         <span className="hidden md:inline-block bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded-md font-bold ml-1">
           CHỈ PHỤC VỤ TP. CẦN THƠ • GIAO KTX 15P
@@ -67,7 +67,7 @@ export const StudentHeader: React.FC<StudentHeaderProps> = ({
                   CẦN THƠ
                 </span>
               </div>
-              <span className="text-[10px] sm:text-[11px] font-bold text-slate-500 -mt-1 flex items-center gap-1.5">
+              <span className="text-[10px] sm:text-[11px] font-semibold text-slate-800 -mt-1 flex items-center gap-1.5">
                 <span>Ưu đãi HSSV & Cán bộ Đoàn</span>
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-600"></span>
               </span>
@@ -81,10 +81,10 @@ export const StudentHeader: React.FC<StudentHeaderProps> = ({
                 type="text"
                 value={filter.searchQuery}
                 onChange={(e) => onFilterChange({ searchQuery: e.target.value })}
-                placeholder="Tìm nhanh: FCLUB, YOLO100, SODA125, D159V, quà tặng tháng 8..."
-                className="w-full pl-10 pr-24 py-2.5 bg-slate-50 hover:bg-slate-100 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-lg text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition"
+                placeholder="Tìm nhanh: FCLUB, YOLO100, SODA125, D159V, quà tặng kèm..."
+                className="w-full pl-10 pr-24 py-2.5 bg-slate-50 hover:bg-slate-100 focus:bg-white border border-slate-200 focus:border-blue-600 rounded-lg text-xs sm:text-sm text-slate-800 placeholder-slate-500 focus:outline-none transition"
               />
-              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
               
               {filter.searchQuery && (
                 <button

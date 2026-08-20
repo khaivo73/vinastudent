@@ -66,8 +66,8 @@ export const StudentFooter: React.FC = () => {
                 <strong className="text-slate-900">Gói D159V:</strong> 6GB/ngày + 1.700p gọi + SMS + MyTV (Từ 109k)
               </li>
             </ul>
-            <div className="pt-1 text-[11px] text-blue-700 font-semibold">
-              * Quà tặng vật phẩm số lượng có hạn, áp dụng duy nhất trong Tháng 8/2026.
+            <div className="pt-1 text-[11px] text-orange-600 font-semibold">
+              * Quà tặng vật phẩm số lượng có hạn theo chương trình tựu trường.
             </div>
           </div>
 
@@ -76,13 +76,13 @@ export const StudentFooter: React.FC = () => {
             <h4 className="text-sm font-bold uppercase tracking-wider text-slate-900 border-l-2 border-blue-600 pl-2.5">
               Cam Kết Phục Vụ Sinh Viên
             </h4>
-            <ul className="space-y-2 text-xs text-slate-600">
+            <ul className="space-y-2 text-xs text-slate-800 font-normal">
               <li className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
                 <span>Giao SIM tận KTX / phòng trọ / cổng trường 15 phút</span>
               </li>
               <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
                 <span>Tặng 100% quà: Mũ bảo hiểm, Áo mưa, Bình nước, Quạt</span>
               </li>
               <li className="flex items-center gap-2">

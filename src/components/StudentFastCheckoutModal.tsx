@@ -282,8 +282,8 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       -{packageItem.discountPercent}%
                     </span>
                   </div>
-                  <div className="text-xs text-slate-600 mt-0.5 font-normal">
-                    {packageItem.dataAllowance} • {packageItem.voiceAllowance}
+                  <div className="text-xs text-slate-800 mt-0.5 font-normal">
+                    <span className="text-orange-600 font-semibold">{packageItem.dataAllowance}</span> • <span>{packageItem.voiceAllowance}</span>
                   </div>
                 </div>
 
@@ -317,14 +317,14 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                 <div className="flex items-center justify-between">
                   <label className="block text-xs font-semibold text-blue-900 flex items-center gap-1.5">
                     <Gift className="w-4 h-4 text-orange-500" />
-                    <span>1. Chọn Quà Tặng Tựu Trường (Chỉ Có Trong Tháng 8):</span>
+                    <span>1. Chọn Quà Tặng Tựu Trường:</span>
                   </label>
-                  <span className="text-[10px] bg-slate-200 text-slate-700 font-normal px-2 py-0.5 rounded-md">
+                  <span className="text-[10px] bg-slate-200 text-slate-800 font-normal px-2 py-0.5 rounded-md">
                     Số lượng có hạn
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-500 font-normal">
-                  * Quà tặng hiện vật được giao kèm SIM tận KTX/địa chỉ đăng ký Cần Thơ. Áp dụng duy nhất trong tháng 8/2026.
+                <p className="text-[11px] text-slate-800 font-normal">
+                  * Quà tặng hiện vật được giao kèm SIM tận KTX/địa chỉ đăng ký Cần Thơ.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
                   {packageItem.giftOptions.map((gift) => (
@@ -332,8 +332,8 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       key={gift}
                       className={`p-2.5 rounded-lg border text-xs flex items-center gap-2 cursor-pointer transition font-normal ${
                         chosenGift === gift
-                          ? 'bg-blue-50/50 text-blue-600 border-blue-600 shadow-xs'
-                          : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                          ? 'bg-slate-100 text-slate-900 border-slate-300 shadow-xs font-medium'
+                          : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-50'
                       }`}
                     >
                       <input
@@ -343,7 +343,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                         onChange={() => setChosenGift(gift)}
                         className="hidden"
                       />
-                      <Gift className={`w-3.5 h-3.5 shrink-0 ${chosenGift === gift ? 'text-blue-600' : 'text-orange-500'}`} />
+                      <Gift className="w-3.5 h-3.5 shrink-0 text-orange-500" />
                       <span className="truncate">{gift}</span>
                     </label>
                   ))}
