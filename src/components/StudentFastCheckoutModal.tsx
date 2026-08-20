@@ -127,9 +127,9 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
       <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[92vh] overflow-y-auto shadow-2xl relative animate-in fade-in zoom-in duration-200">
         
         {/* Header */}
-        <div className="bg-gradient-to-r from-[#0072BC] to-[#005a96] text-white p-5 sm:p-6 rounded-t-3xl flex items-center justify-between sticky top-0 z-10">
+        <div className="bg-gradient-to-r from-sky-600 to-blue-700 text-white p-5 sm:p-6 rounded-t-3xl flex items-center justify-between sticky top-0 z-10">
           <div>
-            <div className="flex items-center gap-1.5 text-xs font-black text-yellow-300 uppercase tracking-wider">
+            <div className="flex items-center gap-1.5 text-xs font-black text-amber-300 uppercase tracking-wider">
               <School className="w-4 h-4" />
               <span>ĐẶT NHANH GÓI CƯỚC TỰU TRƯỜNG 2026</span>
             </div>
@@ -159,7 +159,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                   ĐĂNG KÝ THÀNH CÔNG!
                 </span>
                 <h3 className="text-2xl font-black text-slate-900 mt-1">
-                  Mã Đơn Hàng: <span className="text-[#0072BC] font-mono">{createdOrder.id}</span>
+                  Mã Đơn Hàng: <span className="text-sky-600 font-mono">{createdOrder.id}</span>
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto mt-1">
                   Cảm ơn bạn <strong>{createdOrder.customerName}</strong>! Đơn hàng gói cước <strong>{packageItem.code}</strong> đã được tiếp nhận.
@@ -174,7 +174,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-500">Quà tặng kèm:</span>
-                  <span className="font-bold text-[#D90429] flex items-center gap-1">
+                  <span className="font-bold text-teal-700 flex items-center gap-1">
                     <Gift className="w-3.5 h-3.5" />
                     {chosenGift}
                   </span>
@@ -193,20 +193,20 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                 </div>
                 <div className="flex justify-between pt-2 border-t border-slate-200">
                   <span className="font-bold text-slate-800">Tổng thanh toán:</span>
-                  <span className="font-black text-sm text-[#D90429]">{formatNumberVND(createdOrder.totalAmount)}</span>
+                  <span className="font-black text-sm text-sky-600">{formatNumberVND(createdOrder.totalAmount)}</span>
                 </div>
               </div>
 
               {/* QR payment block if VietQR */}
               {paymentMethod === 'vietqr' && (
-                <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 text-center max-w-sm mx-auto space-y-3">
-                  <div className="text-xs font-bold text-[#0072BC] flex items-center justify-center gap-1.5">
+                <div className="bg-sky-50 border border-sky-200 rounded-2xl p-4 text-center max-w-sm mx-auto space-y-3">
+                  <div className="text-xs font-bold text-sky-700 flex items-center justify-center gap-1.5">
                     <QrCode className="w-4 h-4" />
                     <span>Quét mã VietQR Chuyển Khoản Tức Thì:</span>
                   </div>
                   
                   {/* Dynamic VietQR Image placeholder */}
-                  <div className="bg-white p-3 rounded-xl border border-blue-100 inline-block shadow-xs">
+                  <div className="bg-white p-3 rounded-xl border border-sky-100 inline-block shadow-xs">
                     <img
                       src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=2vnpay-vinasim-order-${createdOrder.id}-${packageItem.price}`}
                       alt="VietQR Payment"
@@ -215,7 +215,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                   </div>
 
                   <p className="text-[11px] text-slate-600">
-                    Nội dung CK: <strong className="font-mono text-[#0072BC]">{createdOrder.id} {phone}</strong>
+                    Nội dung CK: <strong className="font-mono text-sky-700">{createdOrder.id} {phone}</strong>
                   </p>
                 </div>
               )}
@@ -223,7 +223,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
               <div className="pt-2">
                 <button
                   onClick={handleReset}
-                  className="px-6 py-3 bg-[#0072BC] text-white rounded-full font-bold text-xs sm:text-sm hover:bg-[#005a96] transition cursor-pointer shadow-md"
+                  className="px-6 py-3 bg-sky-600 text-white rounded-full font-bold text-xs sm:text-sm hover:bg-sky-700 transition cursor-pointer shadow-md shadow-sky-600/20"
                 >
                   Xong & Tiếp Tục Mua Sắm
                 </button>
@@ -234,11 +234,11 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
             <form onSubmit={handleSubmit} className="space-y-5">
               
               {/* Package Summary Box */}
-              <div className="bg-gradient-to-br from-blue-50 to-slate-50 p-4 rounded-2xl border border-blue-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="bg-gradient-to-br from-sky-50 to-slate-50 p-4 rounded-2xl border border-sky-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-black text-lg text-[#0072BC]">{packageItem.code}</span>
-                    <span className="px-2 py-0.5 bg-red-100 text-[#D90429] font-black text-xs rounded-full">
+                    <span className="font-mono font-black text-lg text-sky-600">{packageItem.code}</span>
+                    <span className="px-2 py-0.5 bg-teal-50 text-teal-700 border border-teal-200 font-black text-xs rounded-full">
                       -{packageItem.discountPercent}%
                     </span>
                   </div>
@@ -248,7 +248,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                 </div>
 
                 <div className="text-left sm:text-right">
-                  <div className="text-xl font-black text-[#D90429]">
+                  <div className="text-xl font-black text-slate-900">
                     {formatNumberVND(packageItem.price)}
                   </div>
                   <div className="text-xs text-slate-400 line-through">
@@ -261,15 +261,15 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
               <div className="bg-amber-50/70 border border-amber-200 rounded-2xl p-4 space-y-2">
                 <div className="flex items-center justify-between">
                   <label className="block text-xs font-black text-amber-950 flex items-center gap-1.5">
-                    <Gift className="w-4 h-4 text-[#D90429] animate-bounce" />
+                    <Gift className="w-4 h-4 text-amber-600 animate-bounce" />
                     <span>1. Chọn Quà Tặng Tựu Trường (Chỉ Có Trong Tháng 8):</span>
                   </label>
-                  <span className="text-[10px] bg-red-100 text-[#D90429] font-black px-2 py-0.5 rounded-full">
+                  <span className="text-[10px] bg-amber-100 text-amber-800 font-black px-2 py-0.5 rounded-full">
                     Số lượng có hạn
                   </span>
                 </div>
                 <p className="text-[11px] text-amber-900 italic">
-                  * Quà tặng hiện vật được giao kèm SIM tận KTX/địa chỉ đăng ký. Áp dụng duy nhất trong tháng 8/2026.
+                  * Quà tặng hiện vật được giao kèm SIM tận KTX/địa chỉ đăng ký Cần Thơ. Áp dụng duy nhất trong tháng 8/2026.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
                   {packageItem.giftOptions.map((gift) => (
@@ -277,7 +277,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       key={gift}
                       className={`p-2.5 rounded-xl border text-xs font-bold flex items-center gap-2 cursor-pointer transition ${
                         chosenGift === gift
-                          ? 'bg-[#D90429] text-white border-red-700 shadow-xs'
+                          ? 'bg-teal-600 text-white border-teal-700 shadow-xs'
                           : 'bg-white text-slate-800 border-amber-200 hover:bg-amber-100/50'
                       }`}
                     >
@@ -298,14 +298,14 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
               {/* 2. CHOOSE SIM FORMAT */}
               <div>
                 <label className="block text-xs font-bold text-slate-800 mb-2 flex items-center gap-1.5">
-                  <Smartphone className="w-4 h-4 text-[#0072BC]" />
+                  <Smartphone className="w-4 h-4 text-sky-600" />
                   <span>2. Chọn Hình Thức Nhận SIM / Kích Hoạt Gói:</span>
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <label
                     className={`p-3 rounded-2xl border text-xs font-bold flex flex-col gap-1 cursor-pointer transition ${
                       simOption === 'new_sim_physical'
-                        ? 'bg-blue-50 border-[#0072BC] text-[#0072BC] shadow-xs'
+                        ? 'bg-sky-50 border-sky-500 text-sky-700 shadow-xs'
                         : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
                     }`}
                   >
@@ -317,7 +317,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       className="hidden"
                     />
                     <div className="flex items-center gap-1">
-                      <Truck className="w-3.5 h-3.5 text-[#0072BC]" />
+                      <Truck className="w-3.5 h-3.5 text-sky-600" />
                       <span>SIM Mới Vật Lý</span>
                     </div>
                     <span className="text-[10px] font-normal text-slate-500">Giao KTX trong 15 phút</span>
@@ -326,7 +326,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                   <label
                     className={`p-3 rounded-2xl border text-xs font-bold flex flex-col gap-1 cursor-pointer transition ${
                       simOption === 'new_sim_esim'
-                        ? 'bg-blue-50 border-[#0072BC] text-[#0072BC] shadow-xs'
+                        ? 'bg-sky-50 border-sky-500 text-sky-700 shadow-xs'
                         : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
                     }`}
                   >
@@ -338,7 +338,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       className="hidden"
                     />
                     <div className="flex items-center gap-1">
-                      <QrCode className="w-3.5 h-3.5 text-[#0072BC]" />
+                      <QrCode className="w-3.5 h-3.5 text-sky-600" />
                       <span>Mã QR eSIM</span>
                     </div>
                     <span className="text-[10px] font-normal text-slate-500">Quét kích hoạt 3 phút</span>
@@ -347,7 +347,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                   <label
                     className={`p-3 rounded-2xl border text-xs font-bold flex flex-col gap-1 cursor-pointer transition ${
                       simOption === 'existing_sim'
-                        ? 'bg-blue-50 border-[#0072BC] text-[#0072BC] shadow-xs'
+                        ? 'bg-sky-50 border-sky-500 text-sky-700 shadow-xs'
                         : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
                     }`}
                   >
@@ -377,7 +377,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       value={existingPhone}
                       onChange={(e) => setExistingPhone(e.target.value)}
                       placeholder="VD: 0912345678"
-                      className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:bg-white focus:border-[#0072BC] focus:outline-none"
+                      className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:bg-white focus:border-sky-500 focus:outline-none"
                     />
                   </div>
                 )}
@@ -386,7 +386,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
               {/* 3. STUDENT INFORMATION */}
               <div className="space-y-3 pt-1">
                 <label className="block text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                  <School className="w-4 h-4 text-[#0072BC]" />
+                  <School className="w-4 h-4 text-sky-600" />
                   <span>3. Thông Tin Học Sinh - Sinh Viên & Địa Chỉ Nhận Hàng:</span>
                 </label>
 
@@ -401,7 +401,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       value={customerName}
                       onChange={(e) => setCustomerName(e.target.value)}
                       placeholder="VD: Nguyễn Văn An"
-                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:bg-white focus:border-[#0072BC] focus:outline-none"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:bg-white focus:border-sky-500 focus:outline-none"
                     />
                   </div>
 
@@ -415,21 +415,21 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="VD: 0987654321"
-                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:bg-white focus:border-[#0072BC] focus:outline-none"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:bg-white focus:border-sky-500 focus:outline-none"
                     />
                   </div>
                 </div>
 
                 {/* Can Tho Scope Alert */}
-                <div className="bg-blue-50 border border-blue-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-blue-900">
+                <div className="bg-sky-50 border border-sky-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-sky-900">
                   <div className="flex items-center gap-2">
-                    <span className="bg-[#0072BC] text-white text-[10px] font-black px-2 py-0.5 rounded-full">
+                    <span className="bg-sky-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full">
                       TP. CẦN THƠ
                     </span>
                     <span className="font-semibold">Chỉ phục vụ giao nhanh KTX/Phòng trọ tại khu vực Cần Thơ</span>
                   </div>
-                  <a href="tel:0818006881" className="font-bold text-[#0072BC] hover:underline flex items-center gap-1">
-                    <PhoneCall className="w-3.5 h-3.5 text-[#D90429]" />
+                  <a href="tel:0818006881" className="font-bold text-sky-700 hover:underline flex items-center gap-1">
+                    <PhoneCall className="w-3.5 h-3.5 text-teal-600" />
                     <span>08.1800 6881</span>
                   </a>
                 </div>
@@ -442,7 +442,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                     <select
                       value={schoolName}
                       onChange={(e) => setSchoolName(e.target.value)}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:border-[#0072BC] focus:outline-none"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:border-sky-500 focus:outline-none"
                     >
                       {CAN_THO_SCHOOLS.map((school) => (
                         <option key={school} value={school}>
@@ -459,7 +459,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                     <select
                       value={district}
                       onChange={(e) => setDistrict(e.target.value)}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:border-[#0072BC] focus:outline-none"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:border-sky-500 focus:outline-none"
                     >
                       {CAN_THO_DISTRICTS.map((d) => (
                         <option key={d} value={d}>
@@ -480,7 +480,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       value={studentId}
                       onChange={(e) => setStudentId(e.target.value)}
                       placeholder="VD: B2201234 - K48 ĐH Cần Thơ"
-                      className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:border-[#0072BC] focus:outline-none"
+                      className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:border-sky-500 focus:outline-none"
                     />
                   </div>
 
@@ -494,7 +494,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
                       placeholder="VD: Phòng 204 KTX Khu 2 ĐHCT, Đ. 3/2"
-                      className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:border-[#0072BC] focus:outline-none"
+                      className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:border-sky-500 focus:outline-none"
                     />
                   </div>
                 </div>
@@ -503,14 +503,14 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
               {/* 4. PAYMENT METHOD */}
               <div>
                 <label className="block text-xs font-bold text-slate-800 mb-2 flex items-center gap-1.5">
-                  <CreditCard className="w-4 h-4 text-[#0072BC]" />
+                  <CreditCard className="w-4 h-4 text-sky-600" />
                   <span>4. Phương Thức Thanh Toán:</span>
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   <label
                     className={`p-2.5 rounded-xl border text-center text-xs font-bold cursor-pointer transition ${
                       paymentMethod === 'vietqr'
-                        ? 'bg-blue-50 border-[#0072BC] text-[#0072BC]'
+                        ? 'bg-sky-50 border-sky-500 text-sky-700'
                         : 'bg-slate-50 border-slate-200 text-slate-700'
                     }`}
                   >
@@ -528,7 +528,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                   <label
                     className={`p-2.5 rounded-xl border text-center text-xs font-bold cursor-pointer transition ${
                       paymentMethod === 'cod'
-                        ? 'bg-blue-50 border-[#0072BC] text-[#0072BC]'
+                        ? 'bg-sky-50 border-sky-500 text-sky-700'
                         : 'bg-slate-50 border-slate-200 text-slate-700'
                     }`}
                   >
@@ -546,7 +546,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                   <label
                     className={`p-2.5 rounded-xl border text-center text-xs font-bold cursor-pointer transition ${
                       paymentMethod === 'momo'
-                        ? 'bg-blue-50 border-[#0072BC] text-[#0072BC]'
+                        ? 'bg-pink-50 border-pink-400 text-pink-700'
                         : 'bg-slate-50 border-slate-200 text-slate-700'
                     }`}
                   >
@@ -564,7 +564,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                   <label
                     className={`p-2.5 rounded-xl border text-center text-xs font-bold cursor-pointer transition ${
                       paymentMethod === 'vnpay'
-                        ? 'bg-blue-50 border-[#0072BC] text-[#0072BC]'
+                        ? 'bg-sky-50 border-sky-500 text-sky-700'
                         : 'bg-slate-50 border-slate-200 text-slate-700'
                     }`}
                   >
@@ -575,7 +575,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       onChange={() => setPaymentMethod('vnpay')}
                       className="hidden"
                     />
-                    <div className="font-bold text-[#0072BC]">VNPay QR</div>
+                    <div className="font-bold text-sky-700">VNPay QR</div>
                     <div className="text-[10px] text-slate-400 font-normal">Thẻ / App Bank</div>
                   </label>
                 </div>
@@ -585,9 +585,9 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full py-4 bg-[#D90429] hover:bg-[#b80323] text-white rounded-full font-bold text-sm sm:text-base shadow-xl shadow-red-600/25 transition flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-4 bg-gradient-to-r from-sky-500 via-blue-600 to-teal-600 hover:from-sky-600 hover:to-teal-700 text-white rounded-full font-bold text-sm sm:text-base shadow-xl shadow-sky-500/25 transition flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.01]"
                 >
-                  <Zap className="w-5 h-5 text-yellow-300" />
+                  <Zap className="w-5 h-5 text-amber-300" />
                   <span>XÁC NHẬN ĐĂNG KÝ GÓI • {formatNumberVND(packageItem.price)}</span>
                 </button>
                 <div className="flex items-center justify-center gap-2 text-[11px] text-slate-500 mt-2">

@@ -54,12 +54,12 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
         <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col justify-between">
           
           {/* Header */}
-          <div className="bg-[#0072BC] text-white p-5 flex items-center justify-between shadow-md">
+          <div className="bg-gradient-to-r from-sky-600 to-blue-700 text-white p-5 flex items-center justify-between shadow-md">
             <div className="flex items-center gap-2">
-              <ShoppingCart className="w-5 h-5 text-yellow-300" />
+              <ShoppingCart className="w-5 h-5 text-amber-300" />
               <div>
-                <h3 className="font-black text-base sm:text-lg">Giỏ Hàng Tựu Trường</h3>
-                <p className="text-[11px] text-blue-100">{cartItems.length} gói cước ưu đãi</p>
+                <h3 className="font-black text-base sm:text-lg">Giỏ Hàng Tựu Trường Cần Thơ</h3>
+                <p className="text-[11px] text-cyan-100">{cartItems.length} gói cước ưu đãi</p>
               </div>
             </div>
 
@@ -74,8 +74,8 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
           {/* Cart Items List */}
           <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
             {cartItems.length > 0 && (
-              <div className="p-2.5 bg-red-50 border border-red-200 rounded-xl text-xs text-red-900 font-bold flex items-center gap-2">
-                <Gift className="w-4 h-4 text-[#D90429] shrink-0 animate-bounce" />
+              <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-950 font-bold flex items-center gap-2">
+                <Gift className="w-4 h-4 text-amber-600 shrink-0 animate-bounce" />
                 <span>
                   <strong>Quà tặng có hạn:</strong> Chỉ áp dụng duy nhất trong Tháng 8/2026!
                 </span>
@@ -83,7 +83,7 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
             )}
             {cartItems.length === 0 ? (
               <div className="text-center py-16 space-y-3">
-                <div className="w-16 h-16 rounded-full bg-blue-50 text-[#0072BC] flex items-center justify-center mx-auto">
+                <div className="w-16 h-16 rounded-full bg-sky-50 text-sky-600 flex items-center justify-center mx-auto">
                   <ShoppingCart className="w-8 h-8" />
                 </div>
                 <h4 className="font-bold text-slate-800 text-sm">Giỏ hàng sinh viên đang trống</h4>
@@ -100,10 +100,10 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
                   <div className="flex items-start justify-between gap-2">
                     <div>
                       <div className="flex items-center gap-1.5">
-                        <span className="font-mono font-black text-base text-[#0072BC]">
+                        <span className="font-mono font-black text-base text-sky-600">
                           {item.packageItem.code}
                         </span>
-                        <span className="px-2 py-0.2 bg-red-100 text-[#D90429] text-[10px] font-black rounded">
+                        <span className="px-2 py-0.2 bg-teal-50 text-teal-700 border border-teal-200 text-[10px] font-black rounded">
                           -{item.packageItem.discountPercent}%
                         </span>
                       </div>
@@ -114,7 +114,7 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
 
                     <button
                       onClick={() => onRemoveItem(idx)}
-                      className="p-1 text-slate-400 hover:text-red-600 transition"
+                      className="p-1 text-slate-400 hover:text-rose-600 transition cursor-pointer"
                       title="Xóa khỏi giỏ"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -125,7 +125,7 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
                   <div className="bg-amber-50 p-2.5 rounded-xl border border-amber-200/80 text-xs">
                     <div className="flex items-center gap-1 text-amber-900 font-bold text-[11px] mb-1">
                       <Gift className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                      <span>Quà Tặng Kèm:</span>
+                      <span>Quà Tặng Kèm (Tháng 8):</span>
                     </div>
                     <select
                       value={item.selectedGift}
@@ -148,7 +148,7 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
                       onChange={(e) => onUpdateSimOption(idx, e.target.value as any)}
                       className="bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs font-bold text-slate-700"
                     >
-                      <option value="new_sim_physical">SIM Mới (Giao 15p)</option>
+                      <option value="new_sim_physical">SIM Mới (Giao KTX 15p)</option>
                       <option value="new_sim_esim">Mã QR eSIM (3p)</option>
                       <option value="existing_sim">Gán SIM hiện tại</option>
                     </select>
@@ -157,7 +157,7 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
                   {/* Price */}
                   <div className="flex items-center justify-between text-xs pt-1">
                     <span className="text-slate-500">Giá ưu đãi:</span>
-                    <span className="font-black text-sm text-[#D90429]">
+                    <span className="font-black text-sm text-slate-900">
                       {formatNumberVND(item.packageItem.price * item.quantity)}
                     </span>
                   </div>
@@ -170,29 +170,29 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
           {cartItems.length > 0 && (
             <div className="p-4 sm:p-5 bg-slate-50 border-t border-slate-200 space-y-3">
               <div className="flex items-center justify-between text-xs text-slate-600">
-                <span>Vận chuyển KTX & Quà tặng:</span>
-                <span className="text-emerald-600 font-bold">Miễn Phí 100%</span>
+                <span>Giao KTX Cần Thơ & Quà tặng:</span>
+                <span className="text-teal-700 font-bold">Miễn Phí 100%</span>
               </div>
 
               <div className="flex items-baseline justify-between">
                 <span className="text-sm font-bold text-slate-800">Tổng thanh toán:</span>
-                <span className="text-xl font-black text-[#D90429]">
+                <span className="text-xl font-black text-sky-600">
                   {formatNumberVND(totalAmount)}
                 </span>
               </div>
 
               <button
                 onClick={onCheckout}
-                className="w-full py-3.5 bg-[#D90429] hover:bg-[#b80323] text-white font-bold text-sm rounded-full shadow-lg shadow-red-600/25 transition flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-3.5 bg-gradient-to-r from-sky-500 via-blue-600 to-teal-600 hover:from-sky-600 hover:to-teal-700 text-white font-bold text-sm rounded-full shadow-lg shadow-sky-500/25 transition flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.01]"
               >
-                <Zap className="w-4 h-4 text-yellow-300" />
+                <Zap className="w-4 h-4 text-amber-300" />
                 <span>Tiến Hành Đặt Hàng Nhanh</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
               <button
                 onClick={onClearCart}
-                className="w-full text-center text-xs text-slate-400 hover:text-slate-600 pt-1"
+                className="w-full text-center text-xs text-slate-400 hover:text-slate-600 pt-1 cursor-pointer"
               >
                 Xóa tất cả sản phẩm
               </button>
