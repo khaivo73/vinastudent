@@ -39,6 +39,18 @@ export const CAN_THO_SCHOOLS = [
   'Học sinh / Sinh viên trường khác tại Cần Thơ',
 ];
 
+export const CAN_THO_DISTRICTS = [
+  'Quận Ninh Kiều',
+  'Quận Cái Răng',
+  'Quận Bình Thủy',
+  'Quận Ô Môn',
+  'Quận Thốt Nốt',
+  'Huyện Phong Điền',
+  'Huyện Cờ Đỏ',
+  'Huyện Vĩnh Thạnh',
+  'Huyện Thới Lai',
+];
+
 export const PACKAGE_COMMUNICATION_GUIDE = [
   {
     demand: 'Ưu tiên chi phí',
@@ -47,8 +59,8 @@ export const PACKAGE_COMMUNICATION_GUIDE = [
     targetAudience: 'Học sinh sinh viên',
     shortMessage: 'Gói tiết kiệm; làm rõ giá đặc thù 3T, cơ chế 5+1 và 10+2.',
     highlights: ['Tiết kiệm nhất', 'Giá đặc thù 3T (159k)', 'Cơ chế tặng 5+1 & 10+2', 'Data 3GB/ngày'],
-    badgeColor: 'bg-teal-50 text-teal-700 border-teal-200',
-    themeColor: 'teal',
+    badgeColor: 'bg-blue-50 text-blue-700 border-blue-200',
+    themeColor: 'blue',
   },
   {
     demand: 'Mạng xã hội/giải trí',
@@ -57,8 +69,8 @@ export const PACKAGE_COMMUNICATION_GUIDE = [
     targetAudience: 'Học sinh sinh viên có nhu cầu Data',
     shortMessage: '1GB/ngày và ưu đãi data ứng dụng theo điều kiện gói.',
     highlights: ['Lướt mạng xã hội & giải trí', '1GB/ngày 5G tốc độ cao', 'Không giới hạn data ứng dụng', 'Giá từ 69k/tháng'],
-    badgeColor: 'bg-sky-50 text-sky-700 border-sky-200',
-    themeColor: 'sky',
+    badgeColor: 'bg-blue-50 text-blue-700 border-blue-200',
+    themeColor: 'blue',
   },
   {
     demand: 'Data cao/học trực tuyến',
@@ -67,8 +79,8 @@ export const PACKAGE_COMMUNICATION_GUIDE = [
     targetAudience: 'Học sinh sinh viên có nhu cầu Data',
     shortMessage: '8GB/ngày, MyTV, TikTok, YouTube và nội dung học tập.',
     highlights: ['8GB/ngày (240GB/tháng)', 'Miễn phí Data TikTok & YouTube', 'Tặng MyTV & Cổng học tập', 'Học trực tuyến cực mượt'],
-    badgeColor: 'bg-cyan-50 text-cyan-700 border-cyan-200',
-    themeColor: 'cyan',
+    badgeColor: 'bg-blue-50 text-blue-700 border-blue-200',
+    themeColor: 'blue',
   },
   {
     demand: 'Data kèm thoại',
@@ -77,8 +89,8 @@ export const PACKAGE_COMMUNICATION_GUIDE = [
     targetAudience: 'HSSV có thu nhập cao có nhu cầu thoại và Data',
     shortMessage: '6GB/ngày, thoại, SMS và MyTV; phù hợp cán bộ Đoàn/khách cần liên lạc nhiều.',
     highlights: ['6GB/ngày (180GB/tháng)', '1.500p nội mạng + 200p ngoại mạng', 'Tặng SMS & MyTV', 'Dành cho Cán bộ Đoàn/Leader'],
-    badgeColor: 'bg-indigo-50 text-indigo-700 border-indigo-200',
-    themeColor: 'indigo',
+    badgeColor: 'bg-blue-50 text-blue-700 border-blue-200',
+    themeColor: 'blue',
   },
 ];
 

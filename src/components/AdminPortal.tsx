@@ -8,13 +8,9 @@ import {
   Clock, 
   Gift, 
   PhoneCall, 
-  School, 
   ShieldCheck,
   Settings,
-  HelpCircle,
-  Users,
   Search,
-  Filter,
   DollarSign,
   TrendingUp,
   Package,
@@ -24,16 +20,12 @@ import {
   PlusCircle,
   LogOut,
   ExternalLink,
-  ChevronRight,
   Sparkles,
-  Smartphone,
-  QrCode,
-  Tag,
   ArrowLeft
 } from 'lucide-react';
-import { StudentOrder, OrderStatus, StudentPackage } from '../types';
-import { STUDENT_PACKAGES, AUGUST_CAMPAIGN_INFO } from '../data/studentPackageData';
-import { exportOrdersToCSV, sendOrderToGoogleSheetsWebhook } from '../utils/exportUtils';
+import { StudentOrder, OrderStatus } from '../types';
+import { STUDENT_PACKAGES } from '../data/studentPackageData';
+import { exportOrdersToCSV } from '../utils/exportUtils';
 import { formatNumberVND } from '../utils/formatters';
 
 interface AdminPortalProps {
@@ -75,13 +67,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
   const [posPhone, setPosPhone] = useState('');
   const [posSchool, setPosSchool] = useState('');
   const [posStudentId, setPosStudentId] = useState('');
-  const [posAddress, setPosAddress] = useState('');
   const [posPackageId, setPosPackageId] = useState(STUDENT_PACKAGES[0].id);
   const [posGift, setPosGift] = useState(STUDENT_PACKAGES[0].giftOptions[0]);
   const [posSimOption, setPosSimOption] = useState<'new_sim_physical' | 'new_sim_esim' | 'existing_sim'>('new_sim_physical');
   const [posExistingPhone, setPosExistingPhone] = useState('');
-  const [posPaymentMethod, setPosPaymentMethod] = useState<'vietqr' | 'cod' | 'momo' | 'vnpay'>('cod');
-  const [posNotes, setPosNotes] = useState('');
 
   // Selected POS package object
   const selectedPosPackage = useMemo(() => {
@@ -150,10 +139,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
         const matchesName = order.customerName.toLowerCase().includes(q);
         const matchesPhone = order.phone.toLowerCase().includes(q);
         const matchesSchool = (order.schoolName || '').toLowerCase().includes(q);
-        const matchesPkg = order.items.some((it) => it.packageItem.code.toLowerCase().includes(q));
-        if (!matchesId && !matchesName && !matchesPhone && !matchesSchool && !matchesPkg) {
-          return false;
-        }
+        return matchesId || matchesName || matchesPhone || matchesSchool;
       }
       return true;
     });
@@ -166,78 +152,60 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
   const handleSaveWebhook = (e: React.FormEvent) => {
     e.preventDefault();
     onSaveWebhookUrl(webhookInput.trim());
-    alert('Đã lưu thành công Google Sheets Webhook URL!');
+    alert('Đã lưu cấu hình Google Sheets Webhook URL thành công!');
   };
 
-  // Submit POS Order
   const handleCreatePosOrder = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!posCustomerName.trim() || !posPhone.trim()) {
-      alert('Vui lòng nhập họ tên và số điện thoại của sinh viên!');
+    if (!posCustomerName || !posPhone) {
+      alert('Vui lòng nhập họ tên và số điện thoại sinh viên!');
       return;
     }
 
-    const orderId = `POS-${Math.floor(100000 + Math.random() * 900000)}`;
+    const orderId = `CT-POS-${Date.now().toString().slice(-6)}`;
     const newOrder: StudentOrder = {
       id: orderId,
-      customerName: posCustomerName,
-      schoolName: posSchool || 'Gian hàng VinaPhone Cần Thơ',
-      studentId: posStudentId,
-      phone: posPhone,
-      address: posAddress || 'Nhận tại quầy tiếp thị TP. Cần Thơ',
-      city: 'TP. Cần Thơ',
+      customerName: posCustomerName.trim(),
+      phone: posPhone.trim(),
+      schoolName: posSchool.trim() || 'Sinh viên Cần Thơ',
+      studentId: posStudentId.trim() || undefined,
+      city: 'Cần Thơ',
       district: 'Ninh Kiều',
-      deliveryMethod: posSimOption === 'new_sim_esim' ? 'instant_esim' : 'pickup_booth',
-      paymentMethod: posPaymentMethod,
+      deliveryMethod: 'pickup_booth',
+      address: `Tại quầy tiếp thị: ${posSchool || 'Cần Thơ'}`,
+      orderDate: new Date().toLocaleString('vi-VN'),
       items: [
         {
           packageItem: selectedPosPackage,
           quantity: 1,
           selectedGift: posGift,
           simOption: posSimOption,
-          existingPhoneNumber: posExistingPhone,
+          existingPhoneNumber: posSimOption === 'existing_sim' ? posExistingPhone : undefined,
         },
       ],
       totalAmount: selectedPosPackage.price,
-      orderDate: new Date().toLocaleString('vi-VN'),
-      status: 'completed', // completed instantly at booth
-      notes: posNotes,
-      staffNote: 'Đơn tạo trực tiếp tại Quầy Tiếp Thị / Booth Trường Học',
+      paymentMethod: 'cod',
+      status: 'completed', // POS direct cash is completed
+      staffNote: 'Đơn tạo trực tiếp tại quầy tiếp thị trường học Cần Thơ',
     };
 
     onAddNewOrder(newOrder);
 
-    // Send to Google Sheets webhook if configured
-    if (googleSheetsWebhookUrl) {
-      sendOrderToGoogleSheetsWebhook(googleSheetsWebhookUrl, newOrder);
-    }
-
-    alert(`Đã tạo thành công đơn hàng tại quầy: ${orderId}`);
-
-    // Reset POS fields
+    // Reset POS form
     setPosCustomerName('');
     setPosPhone('');
+    setPosSchool('');
     setPosStudentId('');
-    setPosAddress('');
-    setPosNotes('');
-    setActiveTab('orders');
+    setPosExistingPhone('');
+    alert(`Tạo đơn tại quầy thành công! Mã đơn: ${orderId}`);
   };
 
-  const googleScriptTemplate = `function doPost(e) {
+  const googleScriptTemplate = `// Google Apps Script dán vào Extensions > Apps Script
+function doPost(e) {
   try {
-    var data = JSON.parse(e.postData.contents);
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = JSON.parse(e.postData.contents);
     
-    // Nếu sheet rỗng, thêm tiêu đề cột
-    if (sheet.getLastRow() === 0) {
-      sheet.appendRow([
-        "Mã Đơn", "Thời Gian", "Họ Tên", "SĐT", "Trường/KTX", 
-        "Mã SV", "Địa Chỉ", "Gói Cước", "Chu Kỳ", "Quà Tháng 8", 
-        "Hình Thức SIM", "SĐT Gán Gói", "Tổng Tiền", "Thanh Toán"
-      ]);
-    }
-    
-    // Thêm dòng dữ liệu đơn hàng
     sheet.appendRow([
       data.orderId,
       data.orderDate,
@@ -267,31 +235,31 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
     <div className="min-h-screen bg-slate-100 text-slate-800 flex flex-col font-sans" id="admin-portal-view">
       
       {/* Top Admin Navigation Bar */}
-      <header className="bg-slate-950 text-white border-b-2 border-sky-500 sticky top-0 z-30 shadow-lg">
+      <header className="bg-white text-slate-900 border-b border-slate-200 sticky top-0 z-30 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
           
           {/* Brand & Portal Title */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-sky-600 text-white flex items-center justify-center font-black shadow-md">
-              <ShieldCheck className="w-6 h-6 text-amber-300" />
+            <div className="w-10 h-10 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-black shadow-sm">
+              <ShieldCheck className="w-6 h-6 text-white" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-black text-base sm:text-lg text-white">VNPT Cần Thơ</span>
-                <span className="bg-teal-600 text-white text-[10px] uppercase font-black px-2.5 py-0.5 rounded-full">
+                <span className="font-black text-base sm:text-lg text-slate-900">VNPT Cần Thơ</span>
+                <span className="bg-blue-600 text-white text-[10px] uppercase font-bold px-2.5 py-0.5 rounded-full">
                   Admin Portal
                 </span>
               </div>
-              <p className="text-xs text-sky-200">Hệ Thống Quản Lý Chiến Dịch Tựu Trường 2026 - Cần Thơ</p>
+              <p className="text-xs text-slate-500">Hệ Thống Quản Lý Chiến Dịch Tựu Trường 2026 - Cần Thơ</p>
             </div>
           </div>
 
           {/* Center Tabs */}
-          <div className="flex items-center gap-1 bg-white/10 p-1 rounded-2xl border border-white/10 text-xs font-bold">
+          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-2xl border border-slate-200 text-xs font-bold">
             <button
               onClick={() => setActiveTab('orders')}
               className={`px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 cursor-pointer ${
-                activeTab === 'orders' ? 'bg-sky-600 text-white shadow-xs' : 'text-slate-300 hover:text-white'
+                activeTab === 'orders' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600 hover:text-blue-600'
               }`}
             >
               <Package className="w-4 h-4" />
@@ -301,7 +269,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
             <button
               onClick={() => setActiveTab('pos')}
               className={`px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 cursor-pointer ${
-                activeTab === 'pos' ? 'bg-teal-600 text-white shadow-xs' : 'text-slate-300 hover:text-white'
+                activeTab === 'pos' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600 hover:text-blue-600'
               }`}
             >
               <PlusCircle className="w-4 h-4" />
@@ -311,7 +279,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
             <button
               onClick={() => setActiveTab('analytics')}
               className={`px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 cursor-pointer ${
-                activeTab === 'analytics' ? 'bg-sky-600 text-white shadow-xs' : 'text-slate-300 hover:text-white'
+                activeTab === 'analytics' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600 hover:text-blue-600'
               }`}
             >
               <TrendingUp className="w-4 h-4" />
@@ -321,7 +289,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
             <button
               onClick={() => setActiveTab('settings')}
               className={`px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 cursor-pointer ${
-                activeTab === 'settings' ? 'bg-sky-600 text-white shadow-xs' : 'text-slate-300 hover:text-white'
+                activeTab === 'settings' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600 hover:text-blue-600'
               }`}
             >
               <Settings className="w-4 h-4" />
@@ -333,7 +301,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={onSwitchToCustomerView}
-              className="px-3.5 py-2 bg-gradient-to-r from-sky-500 to-teal-600 hover:from-sky-600 hover:to-teal-700 text-white rounded-xl text-xs font-bold shadow-md transition flex items-center gap-1.5 cursor-pointer"
+              className="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-xs"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Xem Giao Diện Sinh Viên</span>
@@ -341,7 +309,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
 
             <button
               onClick={onLogout}
-              className="p-2 bg-white/10 hover:bg-rose-600 text-slate-300 hover:text-white rounded-xl transition cursor-pointer"
+              className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition cursor-pointer border border-slate-200"
               title="Đăng xuất"
             >
               <LogOut className="w-4 h-4" />
@@ -356,54 +324,54 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
         
         {/* KPI Mini-Dashboard */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+          <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
             <div>
-              <div className="text-[11px] font-bold uppercase text-slate-400">Doanh Thu Tổng</div>
-              <div className="text-xl sm:text-2xl font-black text-sky-600 font-mono mt-0.5">
+              <div className="text-[11px] font-bold uppercase text-slate-500">Doanh Thu Tổng</div>
+              <div className="text-xl sm:text-2xl font-black text-blue-600 font-mono mt-0.5">
                 {formatNumberVND(stats.totalRevenue)}
               </div>
               <div className="text-[10px] text-slate-500 mt-1">Từ {stats.totalOrders} đơn hàng đăng ký</div>
             </div>
-            <div className="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
               <DollarSign className="w-6 h-6" />
             </div>
           </div>
 
-          <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+          <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
             <div>
-              <div className="text-[11px] font-bold uppercase text-slate-400">Chờ Xử Lý</div>
-              <div className="text-xl sm:text-2xl font-black text-amber-500 font-mono mt-0.5">
+              <div className="text-[11px] font-bold uppercase text-slate-500">Chờ Xử Lý</div>
+              <div className="text-xl sm:text-2xl font-black text-slate-700 font-mono mt-0.5">
                 {stats.pendingCount} đơn
               </div>
               <div className="text-[10px] text-slate-500 mt-1">Cần gọi xác nhận thông tin</div>
             </div>
-            <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-2xl bg-slate-100 text-slate-700 flex items-center justify-center">
               <Clock className="w-6 h-6" />
             </div>
           </div>
 
-          <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+          <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
             <div>
-              <div className="text-[11px] font-bold uppercase text-slate-400">Đang Giao KTX Cần Thơ</div>
-              <div className="text-xl sm:text-2xl font-black text-teal-600 font-mono mt-0.5">
+              <div className="text-[11px] font-bold uppercase text-slate-500">Đang Giao KTX Cần Thơ</div>
+              <div className="text-xl sm:text-2xl font-black text-blue-600 font-mono mt-0.5">
                 {stats.shippingCount} đơn
               </div>
               <div className="text-[10px] text-slate-500 mt-1">Shipper đang trên đường giao 15p</div>
             </div>
-            <div className="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
               <Truck className="w-6 h-6" />
             </div>
           </div>
 
-          <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+          <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
             <div>
-              <div className="text-[11px] font-bold uppercase text-slate-400">Đã Hoàn Thành</div>
-              <div className="text-xl sm:text-2xl font-black text-emerald-600 font-mono mt-0.5">
+              <div className="text-[11px] font-bold uppercase text-slate-500">Đã Hoàn Thành</div>
+              <div className="text-xl sm:text-2xl font-black text-slate-900 font-mono mt-0.5">
                 {stats.completedCount} đơn
               </div>
               <div className="text-[10px] text-slate-500 mt-1">Đã kích hoạt SIM & trao quà</div>
             </div>
-            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-2xl bg-slate-100 text-slate-900 flex items-center justify-center">
               <CheckCircle2 className="w-6 h-6" />
             </div>
           </div>
@@ -411,10 +379,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
 
         {/* TAB 1: ORDER MANAGEMENT */}
         {activeTab === 'orders' && (
-          <div className="space-y-4 animate-in fade-in duration-200">
+          <div className="space-y-4">
             
             {/* Filter Bar & Export */}
-            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-3">
+            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3">
               
               {/* Search & Filter Controls */}
               <div className="flex flex-wrap items-center gap-2.5 flex-1 min-w-[280px]">
@@ -426,7 +394,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Tìm tên, SĐT, mã đơn, trường học Cần Thơ..."
-                    className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 focus:border-sky-500 rounded-xl text-xs focus:bg-white focus:outline-none"
+                    className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 focus:border-blue-600 rounded-xl text-xs focus:bg-white focus:outline-none"
                   />
                   <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 </div>
@@ -435,7 +403,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700"
+                  className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:border-blue-600 focus:outline-none"
                 >
                   <option value="ALL">Tất cả trạng thái</option>
                   <option value="pending">Chờ xác nhận</option>
@@ -449,7 +417,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                   <select
                     value={schoolFilter}
                     onChange={(e) => setSchoolFilter(e.target.value)}
-                    className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 max-w-[180px]"
+                    className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 max-w-[180px] focus:border-blue-600 focus:outline-none"
                   >
                     <option value="ALL">Tất cả trường</option>
                     {distinctSchools.map((s) => (
@@ -467,9 +435,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                 <button
                   onClick={handleExportCSV}
                   disabled={orders.length === 0}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-pointer shadow-md ${
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-pointer shadow-sm ${
                     orders.length > 0
-                      ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20'
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white'
                       : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                   }`}
                 >
@@ -479,7 +447,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
 
                 <button
                   onClick={() => setActiveTab('pos')}
-                  className="px-4 py-2 bg-[#D90429] hover:bg-[#b80323] text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-md shadow-red-600/20"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-xs"
                 >
                   <PlusCircle className="w-4 h-4" />
                   <span>Tạo Đơn Quầy</span>
@@ -489,7 +457,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
             </div>
 
             {/* Orders Table */}
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs border-collapse min-w-[850px]">
                   <thead>
@@ -515,17 +483,17 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                       filteredOrders.map((order) => {
                         const item = order.items[0];
                         return (
-                          <tr key={order.id} className="hover:bg-sky-50/40 transition">
+                          <tr key={order.id} className="hover:bg-slate-50 transition">
                             {/* Order ID & Date */}
                             <td className="py-3 px-3.5">
-                              <div className="font-mono font-bold text-sky-600">{order.id}</div>
+                              <div className="font-mono font-bold text-blue-600">{order.id}</div>
                               <div className="text-[10px] text-slate-400 whitespace-nowrap">{order.orderDate}</div>
                             </td>
 
                             {/* Customer */}
                             <td className="py-3 px-3.5">
                               <div className="font-bold text-slate-900">{order.customerName}</div>
-                              <a href={`tel:${order.phone}`} className="text-[11px] text-sky-600 font-mono hover:underline flex items-center gap-1">
+                              <a href={`tel:${order.phone}`} className="text-[11px] text-blue-600 font-mono hover:underline flex items-center gap-1">
                                 <PhoneCall className="w-3 h-3" />
                                 <span>{order.phone}</span>
                               </a>
@@ -544,14 +512,14 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                             {/* Package & Gift */}
                             <td className="py-3 px-3.5">
                               <div className="flex items-center gap-1.5">
-                                <span className="font-mono font-bold text-slate-900 bg-sky-50 px-2 py-0.2 rounded border border-sky-100">
+                                <span className="font-mono font-bold text-slate-900 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
                                   {item?.packageItem.code}
                                 </span>
                                 <span className="text-[10px] text-slate-500 font-bold">
                                   ({item?.packageItem.cycle})
                                 </span>
                               </div>
-                              <div className="text-[11px] text-teal-700 font-bold flex items-center gap-1 mt-0.5">
+                              <div className="text-[11px] text-blue-600 font-bold flex items-center gap-1 mt-0.5">
                                 <Gift className="w-3 h-3 shrink-0" />
                                 <span className="truncate max-w-[140px]">{item?.selectedGift}</span>
                               </div>
@@ -562,7 +530,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                               <div className="font-black text-sm text-slate-900">
                                 {formatNumberVND(order.totalAmount)}
                               </div>
-                              <span className="text-[9px] uppercase font-bold px-1.5 py-0.2 bg-slate-100 rounded text-slate-600">
+                              <span className="text-[9px] uppercase font-bold px-1.5 py-0.5 bg-slate-100 rounded text-slate-600">
                                 {order.paymentMethod}
                               </span>
                             </td>
@@ -574,18 +542,18 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                                 onChange={(e) => onUpdateOrderStatus(order.id, e.target.value as OrderStatus)}
                                 className={`text-[11px] font-bold rounded-xl px-2.5 py-1 border cursor-pointer ${
                                   order.status === 'pending'
-                                    ? 'bg-amber-50 text-amber-700 border-amber-300'
+                                    ? 'bg-slate-100 text-slate-700 border-slate-300'
                                     : order.status === 'shipping'
-                                    ? 'bg-sky-50 text-sky-700 border-sky-300'
+                                    ? 'bg-blue-50 text-blue-700 border-blue-300'
                                     : order.status === 'completed'
-                                    ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
-                                    : 'bg-slate-100 text-slate-700 border-slate-300'
+                                    ? 'bg-blue-600 text-white border-blue-600'
+                                    : 'bg-slate-100 text-slate-500 border-slate-200'
                                 }`}
                               >
-                                <option value="pending">⏳ Chờ xác nhận</option>
-                                <option value="shipping">🚚 Đang giao KTX</option>
-                                <option value="completed">✅ Đã hoàn thành</option>
-                                <option value="cancelled">❌ Đã hủy</option>
+                                <option value="pending">Chờ xác nhận</option>
+                                <option value="shipping">Đang giao KTX</option>
+                                <option value="completed">Đã hoàn thành</option>
+                                <option value="cancelled">Đã hủy</option>
                               </select>
                             </td>
 
@@ -594,7 +562,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                               <div className="flex items-center justify-center gap-1.5">
                                 <button
                                   onClick={() => setSelectedOrderDetails(order)}
-                                  className="p-1.5 text-sky-600 hover:bg-sky-50 rounded-lg transition cursor-pointer"
+                                  className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition cursor-pointer"
                                   title="Xem chi tiết đơn"
                                 >
                                   <ExternalLink className="w-4 h-4" />
@@ -606,7 +574,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                                       onDeleteOrder(order.id);
                                     }
                                   }}
-                                  className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition cursor-pointer"
+                                  className="p-1.5 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition cursor-pointer"
                                   title="Xóa đơn"
                                 >
                                   <Trash2 className="w-4 h-4" />
@@ -627,10 +595,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
 
         {/* TAB 2: POINT OF SALE (POS) - TẠO ĐƠN TẠI QUẦY TIẾP THỊ TRƯỜNG HỌC */}
         {activeTab === 'pos' && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs max-w-3xl mx-auto space-y-6 animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm max-w-3xl mx-auto space-y-6">
             <div className="border-b border-slate-200 pb-4 flex items-center justify-between">
               <div>
-                <div className="flex items-center gap-2 text-xs font-black text-teal-700 uppercase">
+                <div className="flex items-center gap-2 text-xs font-bold text-blue-600 uppercase">
                   <Sparkles className="w-4 h-4" />
                   <span>QUẦY TIẾP THỊ & TƯ VẤN TRỰC TIẾP TẠI TRƯỜNG CẦN THƠ</span>
                 </div>
@@ -638,7 +606,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                   Tạo Đơn Nhanh Cho Học Sinh - Sinh Viên (POS)
                 </h3>
               </div>
-              <span className="bg-amber-400 text-slate-950 text-xs font-black px-3 py-1 rounded-full">
+              <span className="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
                 Cấp SIM & Quà Ngay
               </span>
             </div>
@@ -655,7 +623,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                     value={posCustomerName}
                     onChange={(e) => setPosCustomerName(e.target.value)}
                     placeholder="VD: Lê Thị Hồng"
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:border-sky-500 focus:outline-none"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:border-blue-600 focus:outline-none"
                   />
                 </div>
 
@@ -667,7 +635,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                     value={posPhone}
                     onChange={(e) => setPosPhone(e.target.value)}
                     placeholder="VD: 0988123456"
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:border-sky-500 focus:outline-none"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:border-blue-600 focus:outline-none"
                   />
                 </div>
               </div>
@@ -681,7 +649,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                     value={posSchool}
                     onChange={(e) => setPosSchool(e.target.value)}
                     placeholder="VD: ĐH Cần Thơ - Booth Khu 2 Đ. 3/2"
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:border-sky-500 focus:outline-none"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:border-blue-600 focus:outline-none"
                   />
                 </div>
 
@@ -692,7 +660,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                     value={posStudentId}
                     onChange={(e) => setPosStudentId(e.target.value)}
                     placeholder="VD: B2201234"
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:border-sky-500 focus:outline-none"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:border-blue-600 focus:outline-none"
                   />
                 </div>
               </div>
@@ -709,7 +677,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                       setPosGift(selected.giftOptions[0]);
                     }
                   }}
-                  className="w-full px-3.5 py-2.5 bg-sky-50 border border-sky-200 rounded-xl font-bold text-slate-800 focus:outline-none text-xs sm:text-sm"
+                  className="w-full px-3.5 py-2.5 bg-blue-50 border border-blue-200 rounded-xl font-bold text-slate-800 focus:outline-none text-xs sm:text-sm"
                 >
                   {STUDENT_PACKAGES.map((pkg) => (
                     <option key={pkg.id} value={pkg.id}>
@@ -720,9 +688,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
               </div>
 
               {/* Row 4: Gift Selector */}
-              <div className="bg-amber-50 p-3.5 rounded-2xl border border-amber-200 space-y-2">
-                <label className="block font-bold text-amber-900 flex items-center gap-1.5">
-                  <Gift className="w-4 h-4 text-amber-600" />
+              <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-2">
+                <label className="block font-bold text-slate-800 flex items-center gap-1.5">
+                  <Gift className="w-4 h-4 text-blue-600" />
                   <span>Vật Phẩm Quà Tặng Tháng 8 (Xuất Tại Quầy):</span>
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -731,8 +699,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                       key={opt}
                       className={`p-2 rounded-xl border font-bold flex items-center gap-2 cursor-pointer transition ${
                         posGift === opt
-                          ? 'bg-teal-600 text-white border-teal-700'
-                          : 'bg-white text-slate-800 border-amber-200 hover:bg-amber-100/50'
+                          ? 'bg-blue-600 text-white border-blue-600'
+                          : 'bg-white text-slate-800 border-slate-300 hover:bg-slate-100'
                       }`}
                     >
                       <input
@@ -755,7 +723,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                   type="button"
                   onClick={() => setPosSimOption('new_sim_physical')}
                   className={`p-2.5 rounded-xl border text-center font-bold transition cursor-pointer ${
-                    posSimOption === 'new_sim_physical' ? 'bg-sky-600 text-white border-sky-700' : 'bg-slate-50 border-slate-200'
+                    posSimOption === 'new_sim_physical' ? 'bg-blue-600 text-white border-blue-600' : 'bg-slate-50 border-slate-200 text-slate-700'
                   }`}
                 >
                   SIM Mới Vật Lý
@@ -765,7 +733,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                   type="button"
                   onClick={() => setPosSimOption('new_sim_esim')}
                   className={`p-2.5 rounded-xl border text-center font-bold transition cursor-pointer ${
-                    posSimOption === 'new_sim_esim' ? 'bg-sky-600 text-white border-sky-700' : 'bg-slate-50 border-slate-200'
+                    posSimOption === 'new_sim_esim' ? 'bg-blue-600 text-white border-blue-600' : 'bg-slate-50 border-slate-200 text-slate-700'
                   }`}
                 >
                   Mã QR eSIM
@@ -775,7 +743,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                   type="button"
                   onClick={() => setPosSimOption('existing_sim')}
                   className={`p-2.5 rounded-xl border text-center font-bold transition cursor-pointer ${
-                    posSimOption === 'existing_sim' ? 'bg-sky-600 text-white border-sky-700' : 'bg-slate-50 border-slate-200'
+                    posSimOption === 'existing_sim' ? 'bg-blue-600 text-white border-blue-600' : 'bg-slate-50 border-slate-200 text-slate-700'
                   }`}
                 >
                   Gán SIM Hiện Tại
@@ -800,9 +768,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full py-4 bg-gradient-to-r from-sky-500 via-blue-600 to-teal-600 hover:from-sky-600 hover:to-teal-700 text-white rounded-full font-black text-sm shadow-xl shadow-sky-500/25 transition flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.01]"
+                  className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-black text-sm shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <CheckCircle className="w-5 h-5 text-amber-300" />
+                  <CheckCircle className="w-5 h-5 text-white" />
                   <span>XÁC NHẬN TẠO ĐƠN & THU TIỀN: {formatNumberVND(selectedPosPackage.price)}</span>
                 </button>
               </div>
@@ -813,13 +781,13 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
 
         {/* TAB 3: KPI ANALYTICS */}
         {activeTab === 'analytics' && (
-          <div className="space-y-6 animate-in fade-in duration-200">
+          <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               
               {/* Package Breakdown */}
-              <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+              <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
                 <h4 className="font-black text-slate-900 text-sm flex items-center gap-2">
-                  <Package className="w-4 h-4 text-sky-600" />
+                  <Package className="w-4 h-4 text-blue-600" />
                   <span>Top Gói Cước Sinh Viên Đăng Ký Nhiều Nhất</span>
                 </h4>
 
@@ -834,10 +802,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                         <div key={code} className="space-y-1">
                           <div className="flex justify-between text-xs font-bold">
                             <span className="text-slate-800">{code}</span>
-                            <span className="text-sky-600">{count} đơn ({percent}%)</span>
+                            <span className="text-blue-600">{count} đơn ({percent}%)</span>
                           </div>
                           <div className="w-full bg-slate-100 rounded-full h-2">
-                            <div className="bg-sky-600 h-2 rounded-full" style={{ width: `${percent}%` }} />
+                            <div className="bg-blue-600 h-2 rounded-full" style={{ width: `${percent}%` }} />
                           </div>
                         </div>
                       );
@@ -847,9 +815,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
               </div>
 
               {/* Gift Stock Breakdown */}
-              <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+              <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
                 <h4 className="font-black text-slate-900 text-sm flex items-center gap-2">
-                  <Gift className="w-4 h-4 text-amber-600" />
+                  <Gift className="w-4 h-4 text-blue-600" />
                   <span>Thống Kê Vật Phẩm Quà Tặng Tháng 8 Đã Xuất</span>
                 </h4>
 
@@ -858,9 +826,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                     <p className="text-xs text-slate-400 italic">Chưa có quà tặng nào được chọn</p>
                   ) : (
                     Object.entries(stats.giftStats).map(([gift, count]) => (
-                      <div key={gift} className="flex items-center justify-between p-2.5 rounded-xl bg-amber-50 border border-amber-100 text-xs">
-                        <span className="font-bold text-amber-950">{gift}</span>
-                        <span className="font-black text-teal-700 bg-white px-2 py-0.5 rounded-full border border-amber-200">
+                      <div key={gift} className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                        <span className="font-bold text-slate-900">{gift}</span>
+                        <span className="font-bold text-blue-600 bg-white px-2 py-0.5 rounded-full border border-slate-200">
                           {count} phần
                         </span>
                       </div>
@@ -875,9 +843,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
 
         {/* TAB 4: GOOGLE SHEETS SETTINGS */}
         {activeTab === 'settings' && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs max-w-4xl mx-auto space-y-6 animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm max-w-4xl mx-auto space-y-6">
             <div>
-              <div className="flex items-center gap-2 text-xs font-black text-emerald-600 uppercase">
+              <div className="flex items-center gap-2 text-xs font-bold text-blue-600 uppercase">
                 <FileSpreadsheet className="w-4 h-4" />
                 <span>TÍCH HỢP TỰ ĐỘNG ĐỒNG BỘ GOOGLE SHEETS</span>
               </div>
@@ -912,14 +880,14 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                         setCopiedCode(true);
                         setTimeout(() => setCopiedCode(false), 2000);
                       }}
-                      className="px-2.5 py-1 bg-sky-100 hover:bg-sky-200 text-sky-700 rounded-lg font-bold text-[11px] flex items-center gap-1 cursor-pointer"
+                      className="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg font-bold text-[11px] flex items-center gap-1 cursor-pointer"
                     >
-                      {copiedCode ? <CheckCircle className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                      {copiedCode ? <CheckCircle className="w-3.5 h-3.5 text-blue-600" /> : <Copy className="w-3.5 h-3.5" />}
                       <span>{copiedCode ? 'Đã sao chép!' : 'Copy Code'}</span>
                     </button>
                   </div>
 
-                  <pre className="bg-slate-900 text-slate-200 p-3 rounded-2xl text-[10px] font-mono max-h-48 overflow-y-auto leading-snug">
+                  <pre className="bg-slate-100 text-slate-800 border border-slate-300 p-3 rounded-2xl text-[10px] font-mono max-h-48 overflow-y-auto leading-snug">
                     {googleScriptTemplate}
                   </pre>
                 </div>
@@ -932,11 +900,11 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                       value={webhookInput}
                       onChange={(e) => setWebhookInput(e.target.value)}
                       placeholder="https://script.google.com/macros/s/.../exec"
-                      className="flex-1 px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:bg-white focus:border-sky-500 focus:outline-none"
+                      className="flex-1 px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:bg-white focus:border-blue-600 focus:outline-none"
                     />
                     <button
                       type="submit"
-                      className="px-5 py-2.5 bg-gradient-to-r from-sky-500 to-teal-600 hover:from-sky-600 hover:to-teal-700 text-white rounded-xl font-bold text-xs cursor-pointer shadow-md transition"
+                      className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs cursor-pointer shadow-sm transition"
                     >
                       Lưu URL
                     </button>
@@ -951,11 +919,11 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
 
       {/* Order Detail Modal */}
       {selectedOrderDetails && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-slate-900/60 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative">
             <div className="flex items-center justify-between border-b pb-3">
               <h3 className="font-black text-lg text-slate-900">
-                Chi Tiết Đơn Hàng: <span className="text-sky-600 font-mono">{selectedOrderDetails.id}</span>
+                Chi Tiết Đơn Hàng: <span className="text-blue-600 font-mono">{selectedOrderDetails.id}</span>
               </h3>
               <button
                 onClick={() => setSelectedOrderDetails(null)}
@@ -972,7 +940,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
               </div>
               <div className="flex justify-between py-1 border-b">
                 <span className="text-slate-500">Số điện thoại:</span>
-                <span className="font-bold text-sky-600 font-mono">{selectedOrderDetails.phone}</span>
+                <span className="font-bold text-blue-600 font-mono">{selectedOrderDetails.phone}</span>
               </div>
               <div className="flex justify-between py-1 border-b">
                 <span className="text-slate-500">Trường học Cần Thơ:</span>
@@ -988,7 +956,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
               </div>
               <div className="flex justify-between py-1 border-b">
                 <span className="text-slate-500">Quà tặng Tháng 8:</span>
-                <span className="font-bold text-teal-700">{selectedOrderDetails.items[0]?.selectedGift}</span>
+                <span className="font-bold text-blue-600">{selectedOrderDetails.items[0]?.selectedGift}</span>
               </div>
               <div className="flex justify-between py-1 border-b">
                 <span className="text-slate-500">Tổng thanh toán:</span>

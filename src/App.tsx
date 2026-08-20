@@ -337,8 +337,8 @@ export default function App() {
 
         {/* Floating Toast Notification */}
         {toastMessage && (
-          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs sm:text-sm font-semibold border border-slate-700 animate-in fade-in slide-in-from-bottom duration-200">
-            <CheckCircle className="w-5 h-5 text-emerald-400 shrink-0" />
+          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-white text-slate-800 px-5 py-3 rounded-2xl shadow-xl flex items-center gap-2.5 text-xs sm:text-sm font-semibold border border-blue-200 animate-in fade-in slide-in-from-bottom duration-200">
+            <CheckCircle className="w-5 h-5 text-blue-600 shrink-0" />
             <span>{toastMessage}</span>
           </div>
         )}
@@ -453,11 +453,11 @@ export default function App() {
           title="Tổng đài / Zalo Cần Thơ: 08.1800 6881"
           id="student-floating-hotline"
         >
-          <span className="absolute -inset-1 rounded-full bg-teal-500 opacity-70 animate-ping"></span>
-          <div className="relative w-12 h-12 rounded-full bg-gradient-to-tr from-teal-600 to-sky-500 text-white shadow-xl flex items-center justify-center hover:scale-110 transition">
+          <span className="absolute -inset-1 rounded-full bg-blue-400 opacity-50 animate-ping"></span>
+          <div className="relative w-12 h-12 rounded-full bg-blue-600 text-white shadow-xl flex items-center justify-center hover:bg-blue-700 transition">
             <PhoneCall className="w-5 h-5 animate-pulse" />
           </div>
-          <span className="absolute right-14 bg-slate-900 text-white text-xs font-semibold px-2.5 py-1 rounded-lg shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition pointer-events-none">
+          <span className="absolute right-14 bg-white text-slate-800 text-xs font-semibold px-2.5 py-1 rounded-lg shadow-md border border-slate-200 whitespace-nowrap opacity-0 group-hover:opacity-100 transition pointer-events-none">
             Tổng đài / Zalo Cần Thơ: 08.1800 6881
           </span>
         </a>
@@ -466,7 +466,7 @@ export default function App() {
         {showBackToTop && (
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="w-10 h-10 rounded-full bg-white/95 text-slate-700 hover:text-sky-600 shadow-lg border border-slate-200 flex items-center justify-center hover:scale-110 transition cursor-pointer"
+            className="w-10 h-10 rounded-full bg-white text-slate-700 hover:text-blue-600 shadow-md border border-slate-200 flex items-center justify-center transition cursor-pointer"
             title="Lên đầu trang"
           >
             <ArrowUp className="w-4 h-4" />
@@ -482,7 +482,7 @@ export default function App() {
           onClick={() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-sky-600 py-1 px-2"
+          className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-blue-600 py-1 px-2"
         >
           <GraduationCap className="w-5 h-5 text-slate-700" />
           <span className="text-[10px] font-semibold">Tựu Trường</span>
@@ -493,7 +493,7 @@ export default function App() {
             const el = document.getElementById('student-packages-grid');
             if (el) el.scrollIntoView({ behavior: 'smooth' });
           }}
-          className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-sky-600 py-1 px-2"
+          className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-blue-600 py-1 px-2"
         >
           <Layers className="w-5 h-5 text-slate-700" />
           <span className="text-[10px] font-semibold">16 Gói Cước</span>
@@ -501,12 +501,12 @@ export default function App() {
 
         <button
           onClick={handleOpenAdminPortal}
-          className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-sky-600 py-1 px-2 relative"
+          className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-blue-600 py-1 px-2 relative"
         >
           <div className="relative">
             <ShieldCheck className="w-5 h-5 text-slate-700" />
             {orders.length > 0 && (
-              <span className="absolute -top-1.5 -right-2 bg-sky-600 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+              <span className="absolute -top-1.5 -right-2 bg-blue-600 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                 {orders.length}
               </span>
             )}
@@ -516,7 +516,7 @@ export default function App() {
 
         <button
           onClick={() => setIsTableModalOpen(true)}
-          className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-sky-600 py-1 px-2"
+          className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-blue-600 py-1 px-2"
         >
           <Zap className="w-5 h-5 text-slate-700" />
           <span className="text-[10px] font-semibold">Bảng Giá</span>
@@ -524,12 +524,12 @@ export default function App() {
 
         <button
           onClick={() => setIsCartOpen(true)}
-          className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-sky-600 py-1 px-2 relative"
+          className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-blue-600 py-1 px-2 relative"
         >
           <div className="relative">
             <ShoppingCart className="w-5 h-5 text-slate-700" />
             {cartCount > 0 && (
-              <span className="absolute -top-1.5 -right-2 bg-teal-600 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+              <span className="absolute -top-1.5 -right-2 bg-blue-600 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                 {cartCount}
               </span>
             )}
@@ -541,8 +541,8 @@ export default function App() {
 
       {/* Floating Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-20 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs sm:text-sm font-semibold border border-slate-700 animate-in fade-in slide-in-from-bottom duration-200">
-          <CheckCircle className="w-5 h-5 text-emerald-400 shrink-0" />
+        <div className="fixed bottom-20 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 bg-white text-slate-800 px-5 py-3 rounded-2xl shadow-xl flex items-center gap-2.5 text-xs sm:text-sm font-semibold border border-blue-200 animate-in fade-in slide-in-from-bottom duration-200">
+          <CheckCircle className="w-5 h-5 text-blue-600 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
