@@ -123,9 +123,11 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
               <School className="w-4 h-4" />
               <span>ĐẶT NHANH GÓI CƯỚC TỰU TRƯỜNG 2026</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-black text-slate-900 font-mono">
-              {packageItem.code} ({packageItem.cycle})
-            </h3>
+            <div className="border-l-4 border-orange-500 pl-2 mt-1">
+              <h3 className="text-xl sm:text-2xl font-black text-blue-600 font-mono">
+                {packageItem.code} <span className="text-slate-800 font-sans font-bold text-base sm:text-lg">({packageItem.cycle})</span>
+              </h3>
+            </div>
           </div>
           <button
             onClick={onClose}
@@ -251,7 +253,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
               <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2">
                 <div className="flex items-center justify-between">
                   <label className="block text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                    <Gift className="w-4 h-4 text-blue-600" />
+                    <Gift className="w-4 h-4 text-orange-500" />
                     <span>1. Chọn Quà Tặng Tựu Trường (Chỉ Có Trong Tháng 8):</span>
                   </label>
                   <span className="text-[10px] bg-slate-200 text-slate-700 font-bold px-2 py-0.5 rounded-full">
@@ -267,8 +269,8 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                       key={gift}
                       className={`p-2.5 rounded-xl border text-xs font-bold flex items-center gap-2 cursor-pointer transition ${
                         chosenGift === gift
-                          ? 'bg-blue-600 text-white border-blue-700 shadow-xs'
-                          : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-100'
+                          ? 'bg-blue-50/70 text-blue-700 border-2 border-blue-600 shadow-xs'
+                          : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-50'
                       }`}
                     >
                       <input
@@ -278,7 +280,7 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                         onChange={() => setChosenGift(gift)}
                         className="hidden"
                       />
-                      <Gift className="w-3.5 h-3.5 shrink-0" />
+                      <Gift className="w-3.5 h-3.5 shrink-0 text-orange-500" />
                       <span className="truncate">{gift}</span>
                     </label>
                   ))}
@@ -293,10 +295,10 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <label
-                    className={`p-3 rounded-2xl border text-xs font-bold flex flex-col gap-1 cursor-pointer transition ${
+                    className={`p-3 rounded-xl border text-xs font-bold flex flex-col gap-1 cursor-pointer transition ${
                       simOption === 'new_sim_physical'
-                        ? 'bg-blue-50 border-blue-600 text-blue-700 shadow-xs'
-                        : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                        ? 'bg-blue-50/70 border-2 border-blue-600 text-blue-700 shadow-xs'
+                        : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
                     <input
@@ -314,10 +316,10 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                   </label>
 
                   <label
-                    className={`p-3 rounded-2xl border text-xs font-bold flex flex-col gap-1 cursor-pointer transition ${
+                    className={`p-3 rounded-xl border text-xs font-bold flex flex-col gap-1 cursor-pointer transition ${
                       simOption === 'new_sim_esim'
-                        ? 'bg-blue-50 border-blue-600 text-blue-700 shadow-xs'
-                        : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                        ? 'bg-blue-50/70 border-2 border-blue-600 text-blue-700 shadow-xs'
+                        : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
                     <input
@@ -335,10 +337,10 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                   </label>
 
                   <label
-                    className={`p-3 rounded-2xl border text-xs font-bold flex flex-col gap-1 cursor-pointer transition ${
+                    className={`p-3 rounded-xl border text-xs font-bold flex flex-col gap-1 cursor-pointer transition ${
                       simOption === 'existing_sim'
-                        ? 'bg-blue-50 border-blue-600 text-blue-700 shadow-xs'
-                        : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                        ? 'bg-blue-50/70 border-2 border-blue-600 text-blue-700 shadow-xs'
+                        : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
                     <input
@@ -500,8 +502,8 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                   <label
                     className={`p-2.5 rounded-xl border text-center text-xs font-bold cursor-pointer transition ${
                       paymentMethod === 'vietqr'
-                        ? 'bg-blue-50 border-blue-600 text-blue-700'
-                        : 'bg-slate-50 border-slate-200 text-slate-700'
+                        ? 'bg-blue-50/70 border-2 border-blue-600 text-blue-700 shadow-xs'
+                        : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
                     <input
@@ -518,8 +520,8 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                   <label
                     className={`p-2.5 rounded-xl border text-center text-xs font-bold cursor-pointer transition ${
                       paymentMethod === 'cod'
-                        ? 'bg-blue-50 border-blue-600 text-blue-700'
-                        : 'bg-slate-50 border-slate-200 text-slate-700'
+                        ? 'bg-blue-50/70 border-2 border-blue-600 text-blue-700 shadow-xs'
+                        : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
                     <input
@@ -536,8 +538,8 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                   <label
                     className={`p-2.5 rounded-xl border text-center text-xs font-bold cursor-pointer transition ${
                       paymentMethod === 'momo'
-                        ? 'bg-blue-50 border-blue-600 text-blue-700'
-                        : 'bg-slate-50 border-slate-200 text-slate-700'
+                        ? 'bg-blue-50/70 border-2 border-blue-600 text-blue-700 shadow-xs'
+                        : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
                     <input
@@ -554,8 +556,8 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
                   <label
                     className={`p-2.5 rounded-xl border text-center text-xs font-bold cursor-pointer transition ${
                       paymentMethod === 'vnpay'
-                        ? 'bg-blue-50 border-blue-600 text-blue-700'
-                        : 'bg-slate-50 border-slate-200 text-slate-700'
+                        ? 'bg-blue-50/70 border-2 border-blue-600 text-blue-700 shadow-xs'
+                        : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
                     <input
@@ -575,9 +577,9 @@ export const StudentFastCheckoutModal: React.FC<StudentFastCheckoutModalProps> =
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-bold text-sm sm:text-base shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold text-xs sm:text-sm shadow-xs transition flex items-center justify-center gap-1.5 cursor-pointer"
                 >
-                  <Zap className="w-5 h-5 text-white" />
+                  <Zap className="w-4 h-4 text-white" />
                   <span>XÁC NHẬN ĐĂNG KÝ GÓI • {formatNumberVND(packageItem.price)}</span>
                 </button>
                 <div className="flex items-center justify-center gap-2 text-[11px] text-slate-500 mt-2">

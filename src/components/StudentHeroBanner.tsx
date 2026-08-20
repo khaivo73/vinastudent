@@ -90,7 +90,7 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
                   const el = document.getElementById('student-packages-grid');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="px-6 py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-bold text-xs sm:text-sm shadow-md transition flex items-center gap-2 cursor-pointer"
+                className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-xs sm:text-sm shadow-sm transition flex items-center gap-2 cursor-pointer"
               >
                 <Flame className="w-4 h-4 text-white" />
                 <span>Xem 16 Gói Cước Mùa Tựu Trường</span>
@@ -98,7 +98,7 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
 
               <button
                 onClick={onOpenQuickTable}
-                className="px-5 py-3.5 bg-white hover:bg-slate-100 text-slate-800 rounded-full font-bold text-xs sm:text-sm border border-slate-300 shadow-xs transition flex items-center gap-2 cursor-pointer"
+                className="px-4 py-2.5 bg-white hover:bg-slate-50 text-slate-800 rounded-lg font-semibold text-xs sm:text-sm border border-slate-300 shadow-xs transition flex items-center gap-2 cursor-pointer"
               >
                 <Table className="w-4 h-4 text-blue-600" />
                 <span>Bảng Tổng Hợp So Sánh</span>
@@ -165,46 +165,39 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
                 <div
                   key={guide.packageFamily}
                   onClick={() => onFilterChange({ family: isSelected ? 'ALL' : (guide.packageFamily as PackageFamily) })}
-                  className={`p-4 rounded-2xl border transition cursor-pointer flex flex-col justify-between ${
+                  className={`p-4 rounded-xl border transition cursor-pointer flex flex-col justify-between ${
                     isSelected
-                      ? 'bg-blue-50/80 text-slate-900 border-2 border-blue-600 shadow-sm'
-                      : 'bg-slate-50 hover:bg-slate-100 text-slate-800 border-slate-200'
+                      ? 'bg-blue-50/50 text-slate-900 border-2 border-blue-600 shadow-xs'
+                      : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200'
                   }`}
                 >
                   <div>
                     {/* Nhu cầu & Gói */}
                     <div className="flex items-center justify-between gap-2 mb-2">
-                      <span className={`text-[11px] font-bold uppercase px-2.5 py-0.5 rounded-full ${
-                        isSelected ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-700'
+                      <span className={`text-[11px] font-bold uppercase px-2 py-0.5 rounded-md ${
+                        isSelected ? 'bg-blue-100 text-blue-800 border border-blue-200' : 'bg-slate-100 text-slate-700 border border-slate-200'
                       }`}>
                         {guide.demand}
                       </span>
-                      <span className="font-mono font-bold text-base text-blue-600">
+                      <span className="font-mono font-black text-base text-blue-600 border-b-2 border-orange-500 pb-0.5">
                         {guide.packageFamily}
                       </span>
                     </div>
 
                     {/* Đối tượng */}
-                    <div className="text-xs font-bold mb-1.5 flex items-start gap-1">
-                      <span className="text-slate-500">Đối tượng:</span>
+                    <div className="text-xs font-bold mb-3 flex items-start gap-1">
+                      <span className="text-slate-500 font-medium">Đối tượng:</span>
                       <span className="text-slate-900 font-bold">
                         {guide.targetAudience}
                       </span>
                     </div>
-
-                    {/* Thông điệp */}
-                    <p className={`text-xs italic leading-relaxed p-2.5 rounded-xl mb-3 ${
-                      isSelected ? 'bg-white text-slate-700 border border-blue-100' : 'bg-white text-slate-600 border border-slate-200'
-                    }`}>
-                      "{guide.shortMessage}"
-                    </p>
                   </div>
 
                   {/* Filter action button */}
                   <div className={`pt-2 border-t text-xs font-bold flex items-center justify-between ${
                     isSelected ? 'border-blue-200 text-blue-700' : 'border-slate-200 text-blue-600'
                   }`}>
-                    <span>{isSelected ? '✓ Đang lọc gói này' : 'Bấm xem các chu kỳ 1T-12T'}</span>
+                    <span>{isSelected ? '✓ Đang chọn nhóm này' : 'Bấm xem các chu kỳ 1T-12T'}</span>
                     <ChevronRight className="w-4 h-4" />
                   </div>
                 </div>
@@ -214,25 +207,25 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
         </div>
 
         {/* QUICK FILTER BAR */}
-        <div className="bg-white rounded-3xl p-4 sm:p-5 border border-slate-200 text-slate-800 space-y-4">
+        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 text-slate-800 space-y-4">
           
           {/* Row 1: Filter by Package Family */}
           <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                <Flame className="w-4 h-4 text-blue-600" />
-                <span>1. Lọc Theo Gói Cước:</span>
-              </span>
-              <span className="text-[11px] font-bold text-slate-400">4 Dòng sản phẩm</span>
+            <div className="flex items-center justify-between mb-2.5">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-200 rounded-md text-blue-800 font-bold text-xs">
+                <Flame className="w-4 h-4 text-orange-500" />
+                <span>1. LỌC THEO GÓI CƯỚC:</span>
+              </div>
+              <span className="text-xs font-semibold text-slate-500">4 Dòng sản phẩm</span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
               <button
                 onClick={() => onFilterChange({ family: 'ALL' })}
-                className={`py-2.5 px-3 rounded-2xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer ${
+                className={`py-2 px-3 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer border ${
                   filter.family === 'ALL'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    ? 'border-2 border-blue-600 bg-blue-50/60 text-blue-700 font-bold shadow-xs'
+                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300'
                 }`}
               >
                 <span>Tất Cả Gói (16)</span>
@@ -240,10 +233,10 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
 
               <button
                 onClick={() => onFilterChange({ family: 'FCLUB' })}
-                className={`py-2.5 px-3 rounded-2xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer ${
+                className={`py-2 px-3 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer border ${
                   filter.family === 'FCLUB'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    ? 'border-2 border-blue-600 bg-blue-50/60 text-blue-700 font-bold shadow-xs'
+                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300'
                 }`}
               >
                 <span>FCLUB (Tiết Kiệm)</span>
@@ -251,10 +244,10 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
 
               <button
                 onClick={() => onFilterChange({ family: 'YOLO100' })}
-                className={`py-2.5 px-3 rounded-2xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer ${
+                className={`py-2 px-3 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer border ${
                   filter.family === 'YOLO100'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    ? 'border-2 border-blue-600 bg-blue-50/60 text-blue-700 font-bold shadow-xs'
+                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300'
                 }`}
               >
                 <span>YOLO100 (Mạng Xã Hội)</span>
@@ -262,10 +255,10 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
 
               <button
                 onClick={() => onFilterChange({ family: 'SODA125' })}
-                className={`py-2.5 px-3 rounded-2xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer ${
+                className={`py-2 px-3 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer border ${
                   filter.family === 'SODA125'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    ? 'border-2 border-blue-600 bg-blue-50/60 text-blue-700 font-bold shadow-xs'
+                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300'
                 }`}
               >
                 <span>SODA125 (8GB/Ngày)</span>
@@ -273,10 +266,10 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
 
               <button
                 onClick={() => onFilterChange({ family: 'D159V' })}
-                className={`py-2.5 px-3 rounded-2xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer ${
+                className={`py-2 px-3 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer border ${
                   filter.family === 'D159V'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    ? 'border-2 border-blue-600 bg-blue-50/60 text-blue-700 font-bold shadow-xs'
+                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300'
                 }`}
               >
                 <span>D159V (Data + Thoại)</span>
@@ -285,13 +278,13 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
           </div>
 
           {/* Row 2: Filter by Cycle */}
-          <div className="pt-2 border-t border-slate-100">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                <Clock className="w-4 h-4 text-blue-600" />
-                <span>2. Lọc Theo Chu Kỳ & Quà Tặng Tháng 8:</span>
-              </span>
-              <span className="text-[11px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full">
+          <div className="pt-3 border-t border-slate-100">
+            <div className="flex items-center justify-between mb-2.5">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-200 rounded-md text-blue-800 font-bold text-xs">
+                <Clock className="w-4 h-4 text-orange-500" />
+                <span>2. LỌC THEO CHU KỲ & QUÀ TẶNG THÁNG 8:</span>
+              </div>
+              <span className="text-xs font-bold text-orange-600 bg-orange-50 border border-orange-200 px-2.5 py-0.5 rounded-md">
                 Giảm 30% - 50%
               </span>
             </div>
@@ -299,10 +292,10 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
               <button
                 onClick={() => onFilterChange({ cycle: 'ALL' })}
-                className={`py-2.5 px-3 rounded-2xl text-xs font-bold transition cursor-pointer ${
+                className={`py-2 px-3 rounded-lg text-xs font-semibold transition cursor-pointer border ${
                   filter.cycle === 'ALL'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    ? 'border-2 border-blue-600 bg-blue-50/60 text-blue-700 font-bold shadow-xs'
+                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300'
                 }`}
               >
                 Tất Cả Chu Kỳ
@@ -310,10 +303,10 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
 
               <button
                 onClick={() => onFilterChange({ cycle: '1T' })}
-                className={`py-2.5 px-3 rounded-2xl text-xs font-bold transition cursor-pointer ${
+                className={`py-2 px-3 rounded-lg text-xs font-semibold transition cursor-pointer border ${
                   filter.cycle === '1T'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    ? 'border-2 border-blue-600 bg-blue-50/60 text-blue-700 font-bold shadow-xs'
+                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300'
                 }`}
               >
                 1 Tháng (-30%) • Móc khóa/Quạt
@@ -321,21 +314,21 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
 
               <button
                 onClick={() => onFilterChange({ cycle: '3T' })}
-                className={`py-2.5 px-3 rounded-2xl text-xs font-bold transition cursor-pointer ${
+                className={`py-2 px-3 rounded-lg text-xs font-semibold transition cursor-pointer border ${
                   filter.cycle === '3T'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    ? 'border-2 border-blue-600 bg-blue-50/60 text-blue-700 font-bold shadow-xs'
+                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300'
                 }`}
               >
-                3 Tháng (-35%) • Sổ/Mũ/Bình nước
+                3 Tháng (-35%) • Sổ/Mũ/Bình
               </button>
 
               <button
                 onClick={() => onFilterChange({ cycle: '6T' })}
-                className={`py-2.5 px-3 rounded-2xl text-xs font-bold transition cursor-pointer ${
+                className={`py-2 px-3 rounded-lg text-xs font-semibold transition cursor-pointer border ${
                   filter.cycle === '6T'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    ? 'border-2 border-blue-600 bg-blue-50/60 text-blue-700 font-bold shadow-xs'
+                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300'
                 }`}
               >
                 6 Tháng (5+1) • Áo mưa/Mũ BH
@@ -343,13 +336,13 @@ export const StudentHeroBanner: React.FC<StudentHeroBannerProps> = ({
 
               <button
                 onClick={() => onFilterChange({ cycle: '12T' })}
-                className={`py-2.5 px-3 rounded-2xl text-xs font-bold transition cursor-pointer ${
+                className={`py-2 px-3 rounded-lg text-xs font-semibold transition cursor-pointer border ${
                   filter.cycle === '12T'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    ? 'border-2 border-blue-600 bg-blue-50/60 text-blue-700 font-bold shadow-xs'
+                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300'
                 }`}
               >
-                12 Tháng (10+2) • Quạt điện/Bình cao cấp
+                12 Tháng (10+2) • Quạt/Bình VIP
               </button>
             </div>
           </div>

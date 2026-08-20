@@ -4,15 +4,13 @@ import {
   Gift, 
   Zap, 
   ShoppingCart, 
-  Sparkles, 
   CheckCircle2, 
   Info,
   ChevronRight,
   Flame,
-  Users,
   PhoneCall
 } from 'lucide-react';
-import { STUDENT_PACKAGES, PACKAGE_COMMUNICATION_GUIDE, AUGUST_CAMPAIGN_INFO } from '../data/studentPackageData';
+import { STUDENT_PACKAGES } from '../data/studentPackageData';
 import { StudentPackage } from '../types';
 import { formatNumberVND } from '../utils/formatters';
 
@@ -34,17 +32,13 @@ export const OfficialTableComparison: React.FC<OfficialTableComparisonProps> = (
   if (isModal && !isOpen) return null;
 
   const content = (
-    <div className="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden" id="official-packages-table">
+    <div className="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden" id="official-packages-table">
       
       {/* Table Header / Title */}
       <div className="bg-white border-b border-slate-200 p-5 sm:p-6 flex items-center justify-between text-slate-900">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 text-[10px] font-bold uppercase mb-1">
-            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-            <span>BẢNG THỐNG NHẤT TRUYỀN THÔNG & GIÁ BÁN KHUYẾN NGHỊ</span>
-          </div>
           <h3 className="text-lg sm:text-2xl font-black text-slate-900">
-            Tổng Hợp 16 Gói Cước Mùa Tựu Trường VinaPhone Cần Thơ
+            Bảng Giá Khuyến Nghị & Quà Tặng 16 Gói Cước Mùa Tựu Trường
           </h3>
           <p className="text-xs text-slate-500 mt-0.5">
             Áp dụng cho học sinh, sinh viên các trường Đại học, Cao đẳng tại TP. Cần Thơ
@@ -61,65 +55,11 @@ export const OfficialTableComparison: React.FC<OfficialTableComparisonProps> = (
         )}
       </div>
 
-      {/* AUGUST LIMITED GIFT NOTICE */}
-      <div className="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center justify-between gap-3 text-xs text-slate-900 font-bold">
-        <div className="flex items-center gap-2">
-          <Gift className="w-4 h-4 text-blue-600 shrink-0" />
-          <span>
-            <strong>LƯU Ý VẬT PHẨM QUÀ TẶNG:</strong> Số lượng vật phẩm quà tặng (Mũ BH, Áo mưa, Bình nước, Quạt...) có hạn và <span className="text-blue-700 underline">CHỈ ÁP DỤNG TRONG THÁNG 8/2026</span>.
-          </span>
-        </div>
-        <span className="shrink-0 bg-blue-600 text-white text-[10px] px-2.5 py-0.5 rounded-full font-bold">
-          Chỉ có trong tháng 8
-        </span>
-      </div>
-
-      {/* TABLE 1: COMMUNICATION & TARGET AUDIENCE MATRIX */}
-      <div className="p-4 sm:p-5 bg-slate-50 border-b border-slate-200">
-        <div className="flex items-center gap-2 mb-3">
-          <Users className="w-4 h-4 text-blue-600" />
-          <h4 className="text-xs sm:text-sm font-bold text-slate-900 uppercase">
-            1. Bảng Định Hướng Truyền Thông 4 Dòng Gói Cước (Theo Nhu Cầu & Đối Tượng)
-          </h4>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs border-collapse bg-white rounded-2xl overflow-hidden border border-slate-200 min-w-[650px]">
-            <thead>
-              <tr className="bg-slate-100 text-slate-900 font-bold uppercase text-[11px] border-b border-slate-200">
-                <th className="py-2.5 px-3 border-r border-slate-200 w-[18%]">Nhu Cầu</th>
-                <th className="py-2.5 px-3 border-r border-slate-200 w-[15%] text-center">Gói Ưu Tiên</th>
-                <th className="py-2.5 px-3 border-r border-slate-200 w-[27%]">Đối Tượng</th>
-                <th className="py-2.5 px-3 w-[40%]">Thông Điệp Ngắn</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-200 font-medium text-slate-800">
-              {PACKAGE_COMMUNICATION_GUIDE.map((row) => (
-                <tr key={row.packageFamily} className="hover:bg-slate-50 transition">
-                  <td className="py-2.5 px-3 font-bold border-r border-slate-200 text-slate-900">
-                    {row.demand}
-                  </td>
-                  <td className="py-2.5 px-3 font-bold font-mono text-center border-r border-slate-200 text-blue-600">
-                    {row.packageFamily}
-                  </td>
-                  <td className="py-2.5 px-3 border-r border-slate-200 font-semibold text-slate-700">
-                    {row.targetAudience}
-                  </td>
-                  <td className="py-2.5 px-3 italic text-slate-700">
-                    {row.shortMessage}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* TABLE 2: FULL 16-PACKAGE PRICING & GIFT TABLE */}
+      {/* FULL 16-PACKAGE PRICING & GIFT TABLE */}
       <div className="overflow-x-auto">
-        <div className="p-4 pb-1 font-bold text-xs text-slate-700 flex items-center justify-between">
-          <span>2. BẢNG GIÁ KHUYẾN NGHỊ VÀ VẬT PHẨM QUÀ TẶNG (16 GÓI)</span>
-          <span className="text-[11px] text-blue-700 bg-blue-50 px-2 py-0.5 rounded font-bold">🎁 Quà tặng áp dụng duy nhất trong Tháng 8</span>
+        <div className="px-5 py-3 bg-slate-50 border-b border-slate-200 font-bold text-xs text-slate-700 flex items-center justify-between">
+          <span className="uppercase text-slate-900 tracking-wide">Chi Tiết Giá & Quà Tặng Kèm Theo Từng Chu Kỳ</span>
+          <span className="text-[11px] text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md font-semibold">🎁 Quà tặng áp dụng trong Tháng 8</span>
         </div>
         <table className="w-full text-left text-xs sm:text-sm border-collapse min-w-[700px]">
           <thead>
@@ -144,37 +84,39 @@ export const OfficialTableComparison: React.FC<OfficialTableComparisonProps> = (
                 >
                   {/* Package Code */}
                   <td className="py-3 px-4 border-r border-slate-200">
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono font-bold text-slate-900 text-xs sm:text-sm group-hover:text-blue-600">
-                        {pkg.code}
-                      </span>
-                      {pkg.badge && (
-                        <span className="text-[9px] font-bold px-1.5 py-0.2 bg-blue-50 text-blue-700 border border-blue-200 rounded">
-                          {pkg.badge}
+                    <div className="border-l-4 border-orange-500 pl-2">
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono font-black text-blue-600 text-xs sm:text-sm group-hover:text-blue-700">
+                          {pkg.code}
                         </span>
-                      )}
+                        {pkg.badge && (
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 rounded">
+                            {pkg.badge}
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-[11px] font-medium text-slate-500">{pkg.dataAllowance}</div>
                     </div>
-                    <div className="text-[10px] text-slate-500">{pkg.dataAllowance}</div>
                   </td>
 
                   {/* Cycle */}
                   <td className="py-3 px-4 border-r border-slate-200 text-center">
                     <span className="font-bold text-slate-800">{pkg.cycle}</span>
                     {pkg.bonusText && (
-                      <div className="text-[10px] font-bold text-blue-700">{pkg.bonusText}</div>
+                      <div className="text-[10px] font-bold text-orange-600">{pkg.bonusText}</div>
                     )}
                   </td>
 
                   {/* Discount */}
                   <td className="py-3 px-3 border-r border-slate-200 text-center">
-                    <span className="inline-block px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-bold text-xs">
+                    <span className="inline-block px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200 font-bold text-xs">
                       {pkg.discountPercent}%
                     </span>
                   </td>
 
                   {/* Price */}
                   <td className="py-3 px-4 border-r border-slate-200 text-right">
-                    <div className="font-bold text-sm sm:text-base text-slate-900">
+                    <div className="font-bold text-sm sm:text-base text-slate-900 font-mono">
                       {formatNumberVND(pkg.price)}
                     </div>
                     <div className="text-[10px] text-slate-400 line-through">
@@ -185,7 +127,7 @@ export const OfficialTableComparison: React.FC<OfficialTableComparisonProps> = (
                   {/* Physical Gift */}
                   <td className="py-3 px-4 border-r border-slate-200">
                     <div className="flex items-center gap-1.5 font-semibold text-slate-800">
-                      <Gift className="w-4 h-4 text-blue-600 shrink-0" />
+                      <Gift className="w-4 h-4 text-orange-500 shrink-0" />
                       <span>{pkg.giftText}</span>
                     </div>
                     <span className="text-[10px] text-slate-500 font-medium block mt-0.5">
@@ -198,7 +140,7 @@ export const OfficialTableComparison: React.FC<OfficialTableComparisonProps> = (
                     <div className="flex items-center justify-center gap-1.5">
                       <button
                         onClick={() => onSelectPackage(pkg)}
-                        className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs transition flex items-center gap-1 cursor-pointer"
+                        className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-xs transition flex items-center gap-1 cursor-pointer shadow-xs"
                         title="Đăng ký nhận sim 15 phút tại Cần Thơ"
                       >
                         <Zap className="w-3.5 h-3.5 text-white" />
@@ -207,7 +149,7 @@ export const OfficialTableComparison: React.FC<OfficialTableComparisonProps> = (
 
                       <button
                         onClick={() => onAddToCart(pkg)}
-                        className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-blue-600 rounded-xl transition cursor-pointer"
+                        className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-blue-600 rounded-lg transition cursor-pointer border border-slate-200"
                         title="Thêm vào giỏ hàng"
                       >
                         <ShoppingCart className="w-4 h-4" />

@@ -98,12 +98,12 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
                   className="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-3 relative group"
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <div>
+                    <div className="border-l-4 border-orange-500 pl-2">
                       <div className="flex items-center gap-1.5">
                         <span className="font-mono font-black text-base text-blue-600">
                           {item.packageItem.code}
                         </span>
-                        <span className="px-2 py-0.2 bg-blue-50 text-blue-700 border border-blue-200 text-[10px] font-bold rounded">
+                        <span className="px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 text-[10px] font-bold rounded">
                           -{item.packageItem.discountPercent}%
                         </span>
                       </div>
@@ -124,7 +124,7 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
                   {/* Gift selection box */}
                   <div className="bg-white p-2.5 rounded-xl border border-slate-200 text-xs">
                     <div className="flex items-center gap-1 text-slate-900 font-bold text-[11px] mb-1">
-                      <Gift className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                      <Gift className="w-3.5 h-3.5 text-orange-500 shrink-0" />
                       <span>Quà Tặng Kèm (Tháng 8):</span>
                     </div>
                     <select
@@ -157,7 +157,7 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
                   {/* Price */}
                   <div className="flex items-center justify-between text-xs pt-1">
                     <span className="text-slate-500">Giá ưu đãi:</span>
-                    <span className="font-bold text-sm text-slate-900">
+                    <span className="font-bold text-sm text-slate-900 font-mono">
                       {formatNumberVND(item.packageItem.price * item.quantity)}
                     </span>
                   </div>
@@ -183,11 +183,11 @@ export const StudentCartDrawer: React.FC<StudentCartDrawerProps> = ({
 
               <button
                 onClick={onCheckout}
-                className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-full shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm rounded-lg shadow-xs transition flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Zap className="w-4 h-4 text-white" />
+                <Zap className="w-3.5 h-3.5 text-white" />
                 <span>Tiến Hành Đặt Hàng Nhanh</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
 
               <button
